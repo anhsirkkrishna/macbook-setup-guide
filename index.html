@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,30 +14,39 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0f172a; /* slate-900 */
-            color: #cbd5e1; /* slate-300 */
+            background-color: #0f172a;
+            /* slate-900 */
+            color: #cbd5e1;
+            /* slate-300 */
         }
+        
         .nav-link {
             transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
         }
+        
         .card {
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
+        
         .card:hover {
             transform: translateY(-4px);
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
+        
         .content-section {
             display: none;
         }
+        
         .content-section.active {
             display: block;
         }
+        
         .detail-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s ease-in-out;
         }
+        
         .chart-container {
             position: relative;
             width: 100%;
@@ -46,18 +56,23 @@
             height: 300px;
             max-height: 350px;
         }
+        
         .social-icon svg {
             fill: currentColor;
             transition: color 0.2s ease-in-out;
         }
+        
         .social-icon:hover {
-            color: #0ea5e9; /* sky-500 */
+            color: #0ea5e9;
+            /* sky-500 */
         }
+        
         @media (min-width: 640px) {
             .chart-container {
                 height: 350px;
             }
         }
+        
         @media (min-width: 768px) {
             .chart-container {
                 height: 400px;
@@ -65,6 +80,7 @@
         }
     </style>
 </head>
+
 <body class="antialiased">
 
     <header class="bg-slate-900/80 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-700">
@@ -87,7 +103,7 @@
                             <svg class="w-6 h-6" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Instagram</title><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.717 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.148-.558-2.913-.306-.789-.717-1.459-1.384-2.126C21.314.935 20.644.522 19.854.218 19.09.02 18.22-.182 16.947.124 15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.06 1.17-.249 1.805-.413 2.227-.217.562-.477.96-.896 1.381-.42.419-.819.679-1.38.896-.423.164-1.057.36-2.227.413-1.266.057-1.646.07-4.85.07s-3.585-.015-4.85-.07c-1.17-.06-1.805-.249-2.227-.413-.562-.217-.96-.477-1.381-.896-.419-.42-.679-.819-.896-1.381-.165-.423-.36-1.057-.413-2.227-.057-1.266-.07-1.646-.07-4.85s.015-3.585.07-4.85c.055-1.17.249-1.805.413-2.227.217-.562.477-.96.896-1.381.42-.419.82-.679 1.381-.896.422-.165 1.057-.36 2.227-.413 1.266-.057 1.646-.07 4.85-.07zM12 6.837c-2.846 0-5.163 2.317-5.163 5.163S9.154 17.163 12 17.163s5.163-2.317 5.163-5.163S14.846 6.837 12 6.837zM12 15c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.441 1.441 1.441c.795 0 1.44-.645 1.44-1.441s-.645-1.44-1.44-1.44z"/></svg>
                         </a>
                         <a href="https://github.com/anhsirkkrishna" target="_blank" rel="noopener noreferrer" class="social-icon text-slate-400 hover:text-sky-600" aria-label="GitHub">
-                           <svg class="w-6 h-6" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                            <svg class="w-6 h-6" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
                         </a>
                     </div>
                 </div>
@@ -120,7 +136,7 @@
                             <svg class="w-7 h-7" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Instagram</title><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.717 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.148-.558-2.913-.306-.789-.717-1.459-1.384-2.126C21.314.935 20.644.522 19.854.218 19.09.02 18.22-.182 16.947.124 15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.06 1.17-.249 1.805-.413 2.227-.217.562-.477.96-.896 1.381-.42.419-.819.679-1.38.896-.423.164-1.057.36-2.227.413-1.266.057-1.646.07-4.85.07s-3.585-.015-4.85-.07c-1.17-.06-1.805-.249-2.227-.413-.562-.217-.96-.477-1.381-.896-.419-.42-.679-.819-.896-1.381-.165-.423-.36-1.057-.413-2.227-.057-1.266-.07-1.646-.07-4.85s.015-3.585.07-4.85c.055-1.17.249-1.805.413-2.227.217-.562.477-.96.896-1.381.42-.419.82-.679 1.381-.896.422-.165 1.057-.36 2.227-.413 1.266-.057 1.646-.07 4.85-.07zM12 6.837c-2.846 0-5.163 2.317-5.163 5.163S9.154 17.163 12 17.163s5.163-2.317 5.163-5.163S14.846 6.837 12 6.837zM12 15c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.441 1.441 1.441c.795 0 1.44-.645 1.44-1.441s-.645-1.44-1.44-1.44z"/></svg>
                         </a>
                         <a href="https://github.com/anhsirkkrishna" target="_blank" rel="noopener noreferrer" class="social-icon text-slate-400 hover:text-sky-600" aria-label="GitHub">
-                           <svg class="w-7 h-7" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                            <svg class="w-7 h-7" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
                         </a>
                     </div>
                 </div>
@@ -156,7 +172,8 @@
                     </button>
                     <div id="detail-1" class="detail-content px-5 pb-5 text-slate-400">
                         <p class="mb-2"><strong>Why:</strong> Your new Mac might have an older OS version with known security flaws. Updating immediately is the single most important security step.</p>
-                        <p><strong>How:</strong> Go to <code class="text-sm bg-slate-700 text-slate-300 p-1 rounded">Apple menu &gt; System Settings &gt; General &gt; Software Update</code>. Install any available updates. Turn on "Automatic Updates" to stay protected effortlessly.</p>
+                        <p><strong>How:</strong> Go to <code class="text-sm bg-slate-700 text-slate-300 p-1 rounded">Apple menu &gt; System Settings &gt; General &gt; Software Update</code>. Install any available updates. Turn on "Automatic Updates" to stay
+                            protected effortlessly.</p>
                     </div>
                 </div>
                 <div class="bg-slate-800 rounded-xl shadow-sm border border-slate-700 overflow-hidden">
@@ -169,7 +186,8 @@
                     </button>
                     <div id="detail-2" class="detail-content px-5 pb-5 text-slate-400">
                         <p class="mb-2"><strong>Why:</strong> FileVault encrypts your entire hard drive, making your data unreadable if your MacBook is lost or stolen. It's essential protection for your academic work and personal information.</p>
-                        <p><strong>How:</strong> Go to <code class="text-sm bg-slate-700 text-slate-300 p-1 rounded">System Settings &gt; Privacy & Security &gt; FileVault</code> and click "Turn On". Be sure to save your recovery key in a safe place separate from your computer.</p>
+                        <p><strong>How:</strong> Go to <code class="text-sm bg-slate-700 text-slate-300 p-1 rounded">System Settings &gt; Privacy & Security &gt; FileVault</code> and click "Turn On". Be sure to save your recovery key in a safe place separate
+                            from your computer.</p>
                     </div>
                 </div>
                 <div class="bg-slate-800 rounded-xl shadow-sm border border-slate-700 overflow-hidden">
@@ -206,7 +224,7 @@
                 <h2 class="text-2xl sm:text-3xl font-bold text-slate-100">Crafting Your Digital Cockpit</h2>
                 <p class="mt-2 max-w-2xl mx-auto text-md text-slate-400 leading-relaxed">Tailor the macOS interface for maximum productivity. Mastering these settings is key to unlocking a faster, more intuitive workflow.</p>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="card bg-slate-800 rounded-xl p-6 border border-slate-700">
                     <h3 class="font-bold text-xl mb-4 text-slate-200">Master Trackpad Gestures</h3>
@@ -223,9 +241,15 @@
                     <h3 class="font-bold text-xl mb-4 text-slate-200">Personalize Dock & Menu Bar</h3>
                     <p class="text-slate-400 mb-4">Reclaim screen real estate and create a stable, personalized launchpad for your most-used apps and controls.</p>
                     <ul class="space-y-2 text-sm">
-                        <li class="flex items-start"><span class="text-amber-500 mr-2 mt-1">★</span> Drag apps on/off the Dock to customize it. Right-click an icon and select "Options > Keep in Dock".</li>
-                        <li class="flex items-start"><span class="text-amber-500 mr-2 mt-1">★</span> In <code class="text-sm bg-slate-700 text-slate-300 p-1 rounded">Desktop & Dock</code> settings, turn off "Show suggested and recent apps" for a static Dock.</li>
-                        <li class="flex items-start"><span class="text-amber-500 mr-2 mt-1">★</span> Hold <code class="text-sm bg-slate-700 text-slate-300 p-1 rounded">Command (⌘)</code> and drag Menu Bar icons to reorder them.</li>
+                        <li class="flex items-start">
+                            <p><span class="text-amber-500 mr-2 mt-1">★</span> Drag apps on/off the Dock to customize it. Right-click an icon and select "Options > Keep in Dock".</p>
+                        </li>
+                        <li class="flex items-start">
+                            <p><span class="text-amber-500 mr-2 mt-1">★</span> In <code class="text-sm bg-slate-700 text-slate-300 p-1 rounded">Desktop & Dock</code> settings, turn off "Show suggested and recent apps" for a static Dock.</p>
+                        </li>
+                        <li class="flex items-start">
+                            <p><span class="text-amber-500 mr-2 mt-1">★</span> Hold <code class="text-sm bg-slate-700 text-slate-300 p-1 rounded">Command (⌘)</code> and drag Menu Bar icons to reorder them.</p>
+                        </li>
                     </ul>
                 </div>
 
@@ -234,8 +258,13 @@
                     <p class="text-slate-400 mb-4">Use virtual desktops (Spaces) and Hot Corners to create focused environments for each of your classes or projects.</p>
                     <ul class="space-y-2 text-sm">
                         <li class="flex items-start"><span class="text-emerald-500 mr-2 mt-1">❖</span> Enter Mission Control (swipe up) and click the `+` to create a new Space (e.g., one for 'Research', one for 'Writing').</li>
-                        <li class="flex items-start"><span class="text-emerald-500 mr-2 mt-1">❖</span> Set up Hot Corners in <code class="text-sm bg-slate-700 text-slate-300 p-1 rounded">Desktop & Dock</code> settings.</li>
-                        <li class="flex items-start"><span class="text-emerald-500 mr-2 mt-1">❖</span> <strong>Pro Tip:</strong> Hold a modifier key (like <code class="text-sm bg-slate-700 text-slate-300 p-1 rounded">⌘</code> or <code class="text-sm bg-slate-700 text-slate-300 p-1 rounded">⌥</code>) when selecting a Hot Corner action to prevent accidental triggers.</li>
+                        <li class="flex items-start">
+                            <p><span class="text-emerald-500 mr-2 mt-1">❖</span> Set up Hot Corners in <code class="text-sm bg-slate-700 text-slate-300 p-1 rounded">Desktop & Dock</code> settings.</p>
+                        </li>
+                        <li class="flex items-start">
+                            <p><span class="text-emerald-500 mr-2 mt-1">❖</span> <strong>Pro Tip:</strong> Hold a modifier key (like <code class="text-sm bg-slate-700 text-slate-300 p-1 rounded">⌘</code> or <code class="text-sm bg-slate-700 text-slate-300 p-1 rounded">⌥</code>)
+                                when selecting a Hot Corner action to prevent accidental triggers.</p>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -256,7 +285,7 @@
                     <button class="app-filter-btn bg-slate-700 text-slate-300 px-4 py-2 rounded-full text-sm font-semibold border border-slate-600 hover:bg-slate-600" data-filter="writing">Writing</button>
                 </div>
                 <div id="app-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    </div>
+                </div>
             </div>
 
             <div>
@@ -267,7 +296,7 @@
                         <canvas id="backupChart"></canvas>
                     </div>
                     <div id="backup-explanation" class="text-center mt-4 text-slate-400 text-sm sm:text-base">
-                        </div>
+                    </div>
                     <div class="flex justify-center flex-wrap gap-2 mt-6" id="backup-controls">
                         <button class="backup-control-btn active bg-sky-500/20 text-sky-400 px-4 py-2 rounded-full text-sm font-semibold" data-criteria="purpose">Purpose</button>
                         <button class="backup-control-btn bg-slate-700 text-slate-300 px-4 py-2 rounded-full text-sm font-semibold" data-criteria="what">What's Saved</button>
@@ -283,23 +312,31 @@
                 <h2 class="text-2xl sm:text-3xl font-bold text-slate-100">Becoming a Power User</h2>
                 <p class="mt-2 max-w-2xl mx-auto text-md text-slate-400 leading-relaxed">Cultivate habits and learn advanced techniques that will save you hours of work over your academic career.</p>
             </div>
-            
+
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="bg-slate-800 rounded-xl p-6 border border-slate-700">
                     <h3 class="font-bold text-xl mb-4 text-slate-200">Indispensable Keyboard Shortcuts</h3>
                     <input type="text" id="shortcut-search" placeholder="🔎 Search for a shortcut (e.g., 'screenshot')" class="w-full p-2 bg-slate-700 border border-slate-600 rounded-md mb-4 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-slate-200 placeholder:text-slate-500">
                     <div id="shortcut-list" class="space-y-3 max-h-96 overflow-y-auto pr-2">
-                        </div>
+                    </div>
                 </div>
 
                 <div class="bg-slate-800 rounded-xl p-6 border border-slate-700">
                     <h3 class="font-bold text-xl mb-4 text-slate-200">Maintain Battery Health</h3>
                     <p class="text-slate-400 mb-4">Follow these simple habits to prolong the life and daily runtime of your MacBook's battery.</p>
                     <ul class="space-y-3 text-slate-300">
-                        <li class="flex items-start"><span class="text-amber-500 mr-3 mt-1 text-lg">⚡️</span><div><strong>Enable Optimized Charging:</strong> In <code class="text-sm bg-slate-700 p-1 rounded">Battery</code> settings, this feature learns your routine to reduce battery aging.</div></li>
-                        <li class="flex items-start"><span class="text-amber-500 mr-3 mt-1 text-lg">🔋</span><div><strong>Follow the 20-80% Rule:</strong> Try to keep your battery between 20% and 80% to reduce stress on it. Avoid leaving it at 100% or 0% for long periods.</div></li>
-                        <li class="flex items-start"><span class="text-amber-500 mr-3 mt-1 text-lg">🌡️</span><div><strong>Keep it Cool:</strong> Avoid using your Mac on soft surfaces like blankets that block ventilation. Heat is the battery's worst enemy.</div></li>
-                        <li class="flex items-start"><span class="text-amber-500 mr-3 mt-1 text-lg">🧐</span><div><strong>Identify Energy Hogs:</strong> Use the <code class="text-sm bg-slate-700 p-1 rounded">Activity Monitor</code> app's "Energy" tab to see which apps are draining your battery the most.</div></li>
+                        <li class="flex items-start"><span class="text-amber-500 mr-3 mt-1 text-lg">⚡️</span>
+                            <div><strong>Enable Optimized Charging:</strong> In <code class="text-sm bg-slate-700 p-1 rounded">Battery</code> settings, this feature learns your routine to reduce battery aging.</div>
+                        </li>
+                        <li class="flex items-start"><span class="text-amber-500 mr-3 mt-1 text-lg">🔋</span>
+                            <div><strong>Follow the 20-80% Rule:</strong> Try to keep your battery between 20% and 80% to reduce stress on it. Avoid leaving it at 100% or 0% for long periods.</div>
+                        </li>
+                        <li class="flex items-start"><span class="text-amber-500 mr-3 mt-1 text-lg">🌡️</span>
+                            <div><strong>Keep it Cool:</strong> Avoid using your Mac on soft surfaces like blankets that block ventilation. Heat is the battery's worst enemy.</div>
+                        </li>
+                        <li class="flex items-start"><span class="text-amber-500 mr-3 mt-1 text-lg">🧐</span>
+                            <div><strong>Identify Energy Hogs:</strong> Use the <code class="text-sm bg-slate-700 p-1 rounded">Activity Monitor</code> app's "Energy" tab to see which apps are draining your battery the most.</div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -314,264 +351,330 @@
         </div>
     </footer>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
 
-    const appData = [
-        { name: 'Notion', category: 'org', description: 'The all-in-one workspace for notes, tasks, and databases. A digital brain for all your classes.' },
-        { name: 'Zotero', category: 'research', description: 'The gold standard for academic research. Manages citations and bibliographies automatically.' },
-        { name: 'Obsidian', category: 'org', description: 'A powerful, private, and linked note-taking app. Build a "second brain" of your own.' },
-        { name: 'Grammarly', category: 'writing', description: 'Advanced grammar and style checker. Improves the clarity and professionalism of your writing.' },
-        { name: 'VLC', category: 'writing', description: 'The one media player that will handle any video file a professor sends you, no questions asked.' },
-        { name: 'Pages/Numbers/Keynote', category: 'writing', description: 'Apple\'s powerful and free office suite. Deeply integrated with macOS and iCloud.' }
-    ];
+            const appData = [{
+                name: 'Notion',
+                category: 'org',
+                description: 'The all-in-one workspace for notes, tasks, and databases. A digital brain for all your classes.'
+            }, {
+                name: 'Zotero',
+                category: 'research',
+                description: 'The gold standard for academic research. Manages citations and bibliographies automatically.'
+            }, {
+                name: 'Obsidian',
+                category: 'org',
+                description: 'A powerful, private, and linked note-taking app. Build a "second brain" of your own.'
+            }, {
+                name: 'Grammarly',
+                category: 'writing',
+                description: 'Advanced grammar and style checker. Improves the clarity and professionalism of your writing.'
+            }, {
+                name: 'VLC',
+                category: 'writing',
+                description: 'The one media player that will handle any video file a professor sends you, no questions asked.'
+            }, {
+                name: 'Pages/Numbers/Keynote',
+                category: 'writing',
+                description: 'Apple\'s powerful and free office suite. Deeply integrated with macOS and iCloud.'
+            }];
 
-    const shortcutData = [
-        { keys: '⌘ + Spacebar', action: 'Spotlight Search', tip: 'Use for everything: launching apps, finding files, quick math, and conversions.' },
-        { keys: '⌘ + Tab', action: 'Switch Applications', tip: 'Quickly cycle through all your open applications.' },
-        { keys: '⌘ + Q', action: 'Quit Application', tip: 'Completely closes the active app, freeing up system resources.' },
-        { keys: '⌘ + W', action: 'Close Window', tip: 'Closes the current window (like a browser tab) but keeps the app running.' },
-        { keys: '⌘ + F', action: 'Find', tip: 'Your best friend for searching a keyword in a long PDF or webpage.' },
-        { keys: '⌘ + Z', action: 'Undo', tip: 'Instantly reverse your last action. A critical safety net.' },
-        { keys: '⌘ + S', action: 'Save', tip: 'Develop the muscle memory to press this frequently on important work.' },
-        { keys: '⌘ + H', action: 'Hide Application', tip: 'Hides all windows of the current app to reduce clutter.' },
-        { keys: '⌘ + Shift + 5', action: 'Screenshot Utility', tip: 'Opens the advanced screenshot and screen recording tool.' },
-        { keys: '⌃ + ⌘ + Shift + 4', action: 'Screenshot to Clipboard', tip: 'Copies a selected area directly to your clipboard, ready to paste.' },
-        { keys: '⌥ + ⌘ + Esc', action: 'Force Quit', tip: 'Brings up the Force Quit menu for unresponsive apps.' },
-        { keys: '⌃ + Left/Right Arrow', action: 'Switch Spaces', tip: 'The keyboard way to move between your virtual desktops.' }
-    ];
+            const shortcutData = [{
+                keys: '⌘ + Spacebar',
+                action: 'Spotlight Search',
+                tip: 'Use for everything: launching apps, finding files, quick math, and conversions.'
+            }, {
+                keys: '⌘ + Tab',
+                action: 'Switch Applications',
+                tip: 'Quickly cycle through all your open applications.'
+            }, {
+                keys: '⌘ + Q',
+                action: 'Quit Application',
+                tip: 'Completely closes the active app, freeing up system resources.'
+            }, {
+                keys: '⌘ + W',
+                action: 'Close Window',
+                tip: 'Closes the current window (like a browser tab) but keeps the app running.'
+            }, {
+                keys: '⌘ + F',
+                action: 'Find',
+                tip: 'Your best friend for searching a keyword in a long PDF or webpage.'
+            }, {
+                keys: '⌘ + Z',
+                action: 'Undo',
+                tip: 'Instantly reverse your last action. A critical safety net.'
+            }, {
+                keys: '⌘ + S',
+                action: 'Save',
+                tip: 'Develop the muscle memory to press this frequently on important work.'
+            }, {
+                keys: '⌘ + H',
+                action: 'Hide Application',
+                tip: 'Hides all windows of the current app to reduce clutter.'
+            }, {
+                keys: '⌘ + Shift + 5',
+                action: 'Screenshot Utility',
+                tip: 'Opens the advanced screenshot and screen recording tool.'
+            }, {
+                keys: '⌃ + ⌘ + Shift + 4',
+                action: 'Screenshot to Clipboard',
+                tip: 'Copies a selected area directly to your clipboard, ready to paste.'
+            }, {
+                keys: '⌥ + ⌘ + Esc',
+                action: 'Force Quit',
+                tip: 'Brings up the Force Quit menu for unresponsive apps.'
+            }, {
+                keys: '⌃ + Left/Right Arrow',
+                action: 'Switch Spaces',
+                tip: 'The keyboard way to move between your virtual desktops.'
+            }];
 
-    const backupData = {
-        purpose: {
-            labels: ['Time Machine', 'iCloud'],
-            datasets: [{
-                label: 'Focus',
-                data: [100, 50],
-                backgroundColor: ['#0ea5e9', '#f59e0b'],
-                borderColor: ['#0284c7', '#d97706'],
-                borderWidth: 1
-            }],
-            explanation: '<strong>Time Machine is for Disaster Recovery & Archiving.</strong> It saves everything so you can restore your entire Mac. <strong>iCloud is for Cross-Device Access & Sync.</strong> It keeps specific files available on your iPhone and iPad.'
-        },
-        what: {
-            labels: ['Time Machine', 'iCloud'],
-            datasets: [{
-                label: 'Data Coverage',
-                data: [100, 30],
-                backgroundColor: ['#0ea5e9', '#f59e0b'],
-                borderColor: ['#0284c7', '#d97706'],
-                borderWidth: 1
-            }],
-            explanation: '<strong>Time Machine saves EVERYTHING:</strong> your OS, apps, settings, and all files. <strong>iCloud saves specific data you choose:</strong> Photos, Contacts, and files in iCloud Drive.'
-        },
-        versions: {
-            labels: ['Time Machine', 'iCloud'],
-            datasets: [{
-                label: 'History Depth',
-                data: [100, 20],
-                backgroundColor: ['#0ea5e9', '#f59e0b'],
-                borderColor: ['#0284c7', '#d97706'],
-                borderWidth: 1
-            }],
-            explanation: '<strong>Time Machine keeps deep, long-term versions.</strong> You can recover a file from months ago. <strong>iCloud has very limited version history,</strong> like a 30-day recovery for deleted files.'
-        },
-        cost: {
-            labels: ['Time Machine', 'iCloud'],
-            datasets: [{
-                label: 'Cost Model',
-                data: [40, 80],
-                backgroundColor: ['#0ea5e9', '#f59e0b'],
-                borderColor: ['#0284c7', '#d97706'],
-                borderWidth: 1
-            }],
-            explanation: '<strong>Time Machine is a one-time cost</strong> for an external drive. <strong>iCloud is a monthly subscription</strong> for storage beyond the small free tier. The bars represent ongoing cost potential.'
-        }
-    };
+            const backupData = {
+                purpose: {
+                    labels: ['Time Machine', 'iCloud'],
+                    datasets: [{
+                        label: 'Focus',
+                        data: [100, 50],
+                        backgroundColor: ['#0ea5e9', '#f59e0b'],
+                        borderColor: ['#0284c7', '#d97706'],
+                        borderWidth: 1
+                    }],
+                    explanation: '<strong>Time Machine is for Disaster Recovery & Archiving.</strong> It saves everything so you can restore your entire Mac. <strong>iCloud is for Cross-Device Access & Sync.</strong> It keeps specific files available on your iPhone and iPad.'
+                },
+                what: {
+                    labels: ['Time Machine', 'iCloud'],
+                    datasets: [{
+                        label: 'Data Coverage',
+                        data: [100, 30],
+                        backgroundColor: ['#0ea5e9', '#f59e0b'],
+                        borderColor: ['#0284c7', '#d97706'],
+                        borderWidth: 1
+                    }],
+                    explanation: '<strong>Time Machine saves EVERYTHING:</strong> your OS, apps, settings, and all files. <strong>iCloud saves specific data you choose:</strong> Photos, Contacts, and files in iCloud Drive.'
+                },
+                versions: {
+                    labels: ['Time Machine', 'iCloud'],
+                    datasets: [{
+                        label: 'History Depth',
+                        data: [100, 20],
+                        backgroundColor: ['#0ea5e9', '#f59e0b'],
+                        borderColor: ['#0284c7', '#d97706'],
+                        borderWidth: 1
+                    }],
+                    explanation: '<strong>Time Machine keeps deep, long-term versions.</strong> You can recover a file from months ago. <strong>iCloud has very limited version history,</strong> like a 30-day recovery for deleted files.'
+                },
+                cost: {
+                    labels: ['Time Machine', 'iCloud'],
+                    datasets: [{
+                        label: 'Cost Model',
+                        data: [40, 80],
+                        backgroundColor: ['#0ea5e9', '#f59e0b'],
+                        borderColor: ['#0284c7', '#d97706'],
+                        borderWidth: 1
+                    }],
+                    explanation: '<strong>Time Machine is a one-time cost</strong> for an external drive. <strong>iCloud is a monthly subscription</strong> for storage beyond the small free tier. The bars represent ongoing cost potential.'
+                }
+            };
 
-    // Navigation
-    const navLinks = document.querySelectorAll('.nav-link');
-    const contentSections = document.querySelectorAll('.content-section');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const hamburgerIcon = document.getElementById('hamburger-icon');
-    const closeIcon = document.getElementById('close-icon');
+            // Navigation
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const hamburgerIcon = document.getElementById('hamburger-icon');
+            const closeIcon = document.getElementById('close-icon');
 
-    function updateActiveNav(hash) {
-        // Desktop nav links
-        document.querySelectorAll('header .hidden.md\\:flex .nav-link').forEach(link => {
-            if (link.getAttribute('href') === hash) {
-                link.classList.add('text-sky-600', 'border-sky-600');
-                link.classList.remove('text-slate-400', 'border-transparent');
-            } else {
-                link.classList.remove('text-sky-600', 'border-sky-600');
-                link.classList.add('text-slate-400', 'border-transparent');
+            function updateActiveNav(hash) {
+                // Desktop nav links
+                document.querySelectorAll('header .hidden.md\\:flex .nav-link').forEach(link => {
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('text-sky-600', 'border-sky-600');
+                        link.classList.remove('text-slate-400', 'border-transparent');
+                    } else {
+                        link.classList.remove('text-sky-600', 'border-sky-600');
+                        link.classList.add('text-slate-400', 'border-transparent');
+                    }
+                });
+
+                contentSections.forEach(section => {
+                    if ('#' + section.id === hash) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
             }
-        });
-        
-        contentSections.forEach(section => {
-            if ('#' + section.id === hash) {
-                section.classList.add('active');
-            } else {
-                section.classList.remove('active');
-            }
-        });
-    }
 
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            const hash = e.currentTarget.getAttribute('href');
-            history.pushState(null, null, hash);
-            updateActiveNav(hash);
-            // Close mobile menu on navigation
-            if (!mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-                hamburgerIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
-            }
-        });
-    });
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const hash = e.currentTarget.getAttribute('href');
+                    history.pushState(null, null, hash);
+                    updateActiveNav(hash);
+                    // Close mobile menu on navigation
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                        hamburgerIcon.classList.remove('hidden');
+                        closeIcon.classList.add('hidden');
+                    }
+                });
+            });
 
-    mobileMenuButton.addEventListener('click', () => {
-        const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
-        mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
-        mobileMenu.classList.toggle('hidden');
-        hamburgerIcon.classList.toggle('hidden');
-        closeIcon.classList.toggle('hidden');
-    });
+            mobileMenuButton.addEventListener('click', () => {
+                const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+                mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+                mobileMenu.classList.toggle('hidden');
+                hamburgerIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+            });
 
-    // Accordion/Detail Toggles
-    const detailToggles = document.querySelectorAll('[data-toggle]');
-    detailToggles.forEach(toggle => {
-        toggle.addEventListener('click', () => {
-            const detailId = toggle.getAttribute('data-toggle');
-            const detailContent = document.getElementById(detailId);
-            const arrow = toggle.querySelector('span');
+            // Accordion/Detail Toggles
+            const detailToggles = document.querySelectorAll('[data-toggle]');
+            detailToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const detailId = toggle.getAttribute('data-toggle');
+                    const detailContent = document.getElementById(detailId);
+                    const arrow = toggle.querySelector('span');
 
-            if (detailContent.style.maxHeight) {
-                detailContent.style.maxHeight = null;
-                arrow.style.transform = 'rotate(0deg)';
-            } else {
-                detailContent.style.maxHeight = detailContent.scrollHeight + "px";
-                arrow.style.transform = 'rotate(180deg)';
-            }
-        });
-    });
+                    if (detailContent.style.maxHeight) {
+                        detailContent.style.maxHeight = null;
+                        arrow.style.transform = 'rotate(0deg)';
+                    } else {
+                        detailContent.style.maxHeight = detailContent.scrollHeight + "px";
+                        arrow.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
 
-    // App Toolkit
-    const appGrid = document.getElementById('app-grid');
-    const appFilterBtns = document.querySelectorAll('.app-filter-btn');
+            // App Toolkit
+            const appGrid = document.getElementById('app-grid');
+            const appFilterBtns = document.querySelectorAll('.app-filter-btn');
 
-    function renderApps(filter = 'all') {
-        appGrid.innerHTML = '';
-        const filteredApps = filter === 'all' ? appData : appData.filter(app => app.category === filter);
-        filteredApps.forEach(app => {
-            const card = document.createElement('div');
-            card.className = 'card bg-slate-800 rounded-xl p-6 border border-slate-700';
-            card.innerHTML = `
+            function renderApps(filter = 'all') {
+                appGrid.innerHTML = '';
+                const filteredApps = filter === 'all' ? appData : appData.filter(app => app.category === filter);
+                filteredApps.forEach(app => {
+                    const card = document.createElement('div');
+                    card.className = 'card bg-slate-800 rounded-xl p-6 border border-slate-700';
+                    card.innerHTML = `
                 <h4 class="font-bold text-lg text-slate-200">${app.name}</h4>
                 <p class="text-slate-400 text-sm mt-1 leading-relaxed">${app.description}</p>
             `;
-            appGrid.appendChild(card);
-        });
-    }
+                    appGrid.appendChild(card);
+                });
+            }
 
-    appFilterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            appFilterBtns.forEach(b => b.classList.remove('active', 'bg-sky-600', 'text-white'));
-            appFilterBtns.forEach(b => b.classList.add('bg-slate-700', 'text-slate-300'));
-            btn.classList.add('active', 'bg-sky-600', 'text-white');
-            btn.classList.remove('bg-slate-700', 'text-slate-300');
-            renderApps(btn.dataset.filter);
-        });
-    });
-
-    // Backup Chart
-    const ctx = document.getElementById('backupChart').getContext('2d');
-    const backupExplanation = document.getElementById('backup-explanation');
-    const backupControlBtns = document.querySelectorAll('.backup-control-btn');
-    let backupChart;
-
-    function createOrUpdateBackupChart(criteria) {
-        const data = backupData[criteria];
-        backupExplanation.innerHTML = data.explanation;
-        if (backupChart) {
-            backupChart.data.labels = data.labels;
-            backupChart.data.datasets = data.datasets;
-            backupChart.update();
-        } else {
-            backupChart = new Chart(ctx, {
-                type: 'bar',
-                data: data,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    scales: {
-                        x: {
-                            display: false,
-                            max: 100,
-                        },
-                        y: {
-                            beginAtZero: true,
-                            grid: { display: false },
-                            ticks: { color: '#94a3b8', /* slate-400 */ font: { size: 14, weight: '600' } }
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { enabled: false }
-                    }
-                }
+            appFilterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    appFilterBtns.forEach(b => b.classList.remove('active', 'bg-sky-600', 'text-white'));
+                    appFilterBtns.forEach(b => b.classList.add('bg-slate-700', 'text-slate-300'));
+                    btn.classList.add('active', 'bg-sky-600', 'text-white');
+                    btn.classList.remove('bg-slate-700', 'text-slate-300');
+                    renderApps(btn.dataset.filter);
+                });
             });
-        }
-    }
 
-    backupControlBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            backupControlBtns.forEach(b => b.classList.remove('active', 'bg-sky-500/20', 'text-sky-400'));
-            backupControlBtns.forEach(b => b.classList.add('bg-slate-700', 'text-slate-300'));
-            btn.classList.add('active', 'bg-sky-500/20', 'text-sky-400');
-            btn.classList.remove('bg-slate-700', 'text-slate-300');
-            createOrUpdateBackupChart(btn.dataset.criteria);
-        });
-    });
+            // Backup Chart
+            const ctx = document.getElementById('backupChart').getContext('2d');
+            const backupExplanation = document.getElementById('backup-explanation');
+            const backupControlBtns = document.querySelectorAll('.backup-control-btn');
+            let backupChart;
 
-    // Shortcut Search
-    const shortcutSearch = document.getElementById('shortcut-search');
-    const shortcutList = document.getElementById('shortcut-list');
+            function createOrUpdateBackupChart(criteria) {
+                const data = backupData[criteria];
+                backupExplanation.innerHTML = data.explanation;
+                if (backupChart) {
+                    backupChart.data.labels = data.labels;
+                    backupChart.data.datasets = data.datasets;
+                    backupChart.update();
+                } else {
+                    backupChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: data,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            indexAxis: 'y',
+                            scales: {
+                                x: {
+                                    display: false,
+                                    max: 100,
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    grid: {
+                                        display: false
+                                    },
+                                    ticks: {
+                                        color: '#94a3b8',
+                                        /* slate-400 */
+                                        font: {
+                                            size: 14,
+                                            weight: '600'
+                                        }
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    enabled: false
+                                }
+                            }
+                        }
+                    });
+                }
+            }
 
-    function renderShortcuts(searchTerm = '') {
-        shortcutList.innerHTML = '';
-        const filteredShortcuts = shortcutData.filter(s => 
-            s.action.toLowerCase().includes(searchTerm.toLowerCase()) || 
-            s.keys.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        filteredShortcuts.forEach(sc => {
-            const item = document.createElement('div');
-            item.className = 'p-2 rounded-md hover:bg-slate-700/50';
-            item.innerHTML = `
+            backupControlBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    backupControlBtns.forEach(b => b.classList.remove('active', 'bg-sky-500/20', 'text-sky-400'));
+                    backupControlBtns.forEach(b => b.classList.add('bg-slate-700', 'text-slate-300'));
+                    btn.classList.add('active', 'bg-sky-500/20', 'text-sky-400');
+                    btn.classList.remove('bg-slate-700', 'text-slate-300');
+                    createOrUpdateBackupChart(btn.dataset.criteria);
+                });
+            });
+
+            // Shortcut Search
+            const shortcutSearch = document.getElementById('shortcut-search');
+            const shortcutList = document.getElementById('shortcut-list');
+
+            function renderShortcuts(searchTerm = '') {
+                shortcutList.innerHTML = '';
+                const filteredShortcuts = shortcutData.filter(s =>
+                    s.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    s.keys.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                filteredShortcuts.forEach(sc => {
+                    const item = document.createElement('div');
+                    item.className = 'p-2 rounded-md hover:bg-slate-700/50';
+                    item.innerHTML = `
                 <div class="flex justify-between items-center">
                     <span class="font-semibold text-slate-300">${sc.action}</span>
                     <code class="text-sm bg-slate-600 text-slate-200 px-2 py-1 rounded">${sc.keys}</code>
                 </div>
                 <p class="text-xs text-slate-400 mt-1 leading-relaxed">${sc.tip}</p>
             `;
-            shortcutList.appendChild(item);
+                    shortcutList.appendChild(item);
+                });
+            }
+
+            shortcutSearch.addEventListener('input', (e) => {
+                renderShortcuts(e.target.value);
+            });
+
+            // Initial Load
+            const initialHash = window.location.hash || '#home';
+            updateActiveNav(initialHash);
+            renderApps();
+            createOrUpdateBackupChart('purpose');
+            renderShortcuts();
         });
-    }
-
-    shortcutSearch.addEventListener('input', (e) => {
-        renderShortcuts(e.target.value);
-    });
-
-    // Initial Load
-    const initialHash = window.location.hash || '#home';
-    updateActiveNav(initialHash);
-    renderApps();
-    createOrUpdateBackupChart('purpose');
-    renderShortcuts();
-});
-</script>
+    </script>
 
 </body>
+
 </html>
