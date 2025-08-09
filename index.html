@@ -3,390 +3,603 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Ultimate MacBook Setup Guide | By Krishna Agarwal</title>
+    <title>Interactive MacBook Setup Guide for Students</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chosen Palette: "Soothing Neutrals" -->
-    <!-- Application Structure Plan: A responsive, single-page application with a fixed sidebar for navigation and a main content area. This structure is ideal for a guide, allowing users to easily jump between sections without losing their place. The content is broken into cards and interactive elements (like copyable code blocks) to improve readability and usability. This design prioritizes user flow and quick information retrieval over a simple linear document. -->
-    <!-- Visualization & Content Choices: The primary "visualization" is the information architecture itself. Report Info (Setup Steps) -> Goal (Organize/Inform) -> Presentation (Sidebar Navigation, Content Cards) -> Interaction (Click to navigate, click to copy code) -> Justification (Improves usability for a technical guide). Report Info (Code Commands) -> Goal (Ease of Use) -> Presentation (Styled code blocks) -> Interaction (Copy button) -> Justification (Reduces user error, speeds up setup). -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals (Slate, Stone, Sky, Amber) -->
+    <!-- Application Structure Plan: The application is designed as a task-oriented, single-page dashboard. It abandons the linear report format for a thematic, interactive structure with a sticky top navigation (Home, First Hour, Customize, Toolkit, Power Up). This allows users to either follow a guided path or jump directly to sections of interest. The core idea is to transform passive reading into an active setup process, using checklists, interactive cards, and filterable content to make the information digestible, actionable, and less overwhelming for a new user. This structure prioritizes usability and a sense of progress. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Security Checklist -> Goal: Guide/Inform -> Viz: Interactive Checklist Cards -> Interaction: Click to expand, checkbox to mark complete -> Justification: Breaks down critical first steps into manageable tasks, provides positive reinforcement. Method: HTML/CSS/JS.
+        - Report Info: Trackpad Gestures -> Goal: Organize/Inform -> Viz: Interactive Grid of Cards -> Interaction: Hover for visual cue, click for details -> Justification: More engaging and memorable than a static table. Method: HTML/CSS/JS.
+        - Report Info: Time Machine vs. iCloud -> Goal: Compare -> Viz: Dynamic Bar Chart -> Interaction: Buttons to change comparison metric (Purpose, Cost, etc.), updating chart and text dynamically -> Justification: Visually clarifies a complex but crucial distinction, making it easier to understand than a text-heavy table. Method: Chart.js.
+        - Report Info: App/Shortcut Lists -> Goal: Organize/Inform -> Viz: Filterable/Searchable Grids/Lists -> Interaction: User types to search or clicks category buttons to filter -> Justification: Provides immediate, relevant results, making it a useful utility rather than a list to be read through. Method: HTML/CSS/JS.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
         }
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        .nav-link {
+            transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+        }
+        .card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
         .content-section {
             display: none;
         }
         .content-section.active {
             display: block;
         }
-        .nav-link.active {
-            background-color: #eef2ff;
-            color: #4f46e5;
-            font-weight: 600;
+        .detail-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
         }
-        .code-block {
+        .chart-container {
             position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
         }
-        .copy-btn {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background-color: #4b5563;
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.2s ease-in-out;
+        .social-icon svg {
+            fill: currentColor;
+            transition: color 0.2s ease-in-out;
         }
-        .code-block:hover .copy-btn {
-            opacity: 1;
+        .social-icon:hover {
+            color: #0ea5e9; /* sky-500 */
         }
-        .copy-btn-copied {
-            background-color: #16a34a;
+        @media (min-width: 640px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="antialiased">
 
-    <div class="flex min-h-screen">
-        <!-- Sidebar Navigation -->
-        <aside id="sidebar" class="w-64 bg-white border-r border-slate-200 p-6 fixed top-0 left-0 h-full overflow-y-auto transition-transform -translate-x-full md:translate-x-0 z-20">
-            <div class="flex flex-col h-full">
-                <div class="mb-8">
-                    <h1 class="text-xl font-bold text-slate-900">MacBook Setup Guide</h1>
-                    <p class="text-sm text-slate-500 mt-1">By <span class="font-semibold">Krishna Agarwal</span></p>
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-200">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <span class="font-bold text-base sm:text-lg md:text-xl text-sky-600">Krishna Agarwal's MacBook Setup</span>
                 </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#home" class="nav-link text-slate-600 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent hover:border-sky-600">Home</a>
+                    <a href="#first-hour" class="nav-link text-slate-600 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent hover:border-sky-600">First Hour</a>
+                    <a href="#customize" class="nav-link text-slate-600 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent hover:border-sky-600">Customize</a>
+                    <a href="#toolkit" class="nav-link text-slate-600 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent hover:border-sky-600">Toolkit</a>
+                    <a href="#power-up" class="nav-link text-slate-600 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent hover:border-sky-600">Power Up</a>
+                    <div class="flex items-center pl-4 space-x-4 border-l border-slate-200">
+                        <a href="https://www.linkedin.com/in/krishnaagarwaldesigns/" target="_blank" rel="noopener noreferrer" class="social-icon text-slate-500 hover:text-sky-600" aria-label="LinkedIn">
+                            <svg class="w-6 h-6" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LinkedIn</title><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+                        </a>
+                        <a href="https://www.instagram.com/_agarwalkrishna_/" target="_blank" rel="noopener noreferrer" class="social-icon text-slate-500 hover:text-sky-600" aria-label="Instagram">
+                            <svg class="w-6 h-6" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Instagram</title><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.717 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.148-.558-2.913-.306-.789-.717-1.459-1.384-2.126C21.314.935 20.644.522 19.854.218 19.09.02 18.22-.182 16.947.124 15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.06 1.17-.249 1.805-.413 2.227-.217.562-.477.96-.896 1.381-.42.419-.819.679-1.38.896-.423.164-1.057.36-2.227.413-1.266.057-1.646.07-4.85.07s-3.585-.015-4.85-.07c-1.17-.06-1.805-.249-2.227-.413-.562-.217-.96-.477-1.381-.896-.419-.42-.679-.819-.896-1.381-.165-.423-.36-1.057-.413-2.227-.057-1.266-.07-1.646-.07-4.85s.015-3.585.07-4.85c.055-1.17.249-1.805.413-2.227.217-.562.477-.96.896-1.381.42-.419.82-.679 1.381-.896.422-.165 1.057-.36 2.227-.413 1.266-.057 1.646-.07 4.85-.07zM12 6.837c-2.846 0-5.163 2.317-5.163 5.163S9.154 17.163 12 17.163s5.163-2.317 5.163-5.163S14.846 6.837 12 6.837zM12 15c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.441 1.441 1.441c.795 0 1.44-.645 1.44-1.441s-.645-1.44-1.44-1.44z"/></svg>
+                        </a>
+                        <a href="https://github.com/anhsirkkrishna" target="_blank" rel="noopener noreferrer" class="social-icon text-slate-500 hover:text-sky-600" aria-label="GitHub">
+                           <svg class="w-6 h-6" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-slate-600 hover:text-sky-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-500" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg id="hamburger-icon" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg id="close-icon" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu, show/hide based on menu state. -->
+            <div class="hidden md:hidden" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="#home" class="nav-link text-slate-600 hover:text-sky-600 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                    <a href="#first-hour" class="nav-link text-slate-600 hover:text-sky-600 block px-3 py-2 rounded-md text-base font-medium">First Hour</a>
+                    <a href="#customize" class="nav-link text-slate-600 hover:text-sky-600 block px-3 py-2 rounded-md text-base font-medium">Customize</a>
+                    <a href="#toolkit" class="nav-link text-slate-600 hover:text-sky-600 block px-3 py-2 rounded-md text-base font-medium">Toolkit</a>
+                    <a href="#power-up" class="nav-link text-slate-600 hover:text-sky-600 block px-3 py-2 rounded-md text-base font-medium">Power Up</a>
+                </div>
+                <div class="pt-4 pb-3 border-t border-slate-200">
+                    <div class="flex items-center justify-center px-5 space-x-6">
+                        <a href="https://www.linkedin.com/in/krishnaagarwaldesigns/" target="_blank" rel="noopener noreferrer" class="social-icon text-slate-500 hover:text-sky-600" aria-label="LinkedIn">
+                            <svg class="w-7 h-7" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LinkedIn</title><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+                        </a>
+                        <a href="https://www.instagram.com/_agarwalkrishna_/" target="_blank" rel="noopener noreferrer" class="social-icon text-slate-500 hover:text-sky-600" aria-label="Instagram">
+                            <svg class="w-7 h-7" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Instagram</title><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.717 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.148-.558-2.913-.306-.789-.717-1.459-1.384-2.126C21.314.935 20.644.522 19.854.218 19.09.02 18.22-.182 16.947.124 15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.06 1.17-.249 1.805-.413 2.227-.217.562-.477.96-.896 1.381-.42.419-.819.679-1.38.896-.423.164-1.057.36-2.227.413-1.266.057-1.646.07-4.85.07s-3.585-.015-4.85-.07c-1.17-.06-1.805-.249-2.227-.413-.562-.217-.96-.477-1.381-.896-.419-.42-.679-.819-.896-1.381-.165-.423-.36-1.057-.413-2.227-.057-1.266-.07-1.646-.07-4.85s.015-3.585.07-4.85c.055-1.17.249-1.805.413-2.227.217-.562.477-.96.896-1.381.42-.419.82-.679 1.381-.896.422-.165 1.057-.36 2.227-.413 1.266-.057 1.646-.07 4.85-.07zM12 6.837c-2.846 0-5.163 2.317-5.163 5.163S9.154 17.163 12 17.163s5.163-2.317 5.163-5.163S14.846 6.837 12 6.837zM12 15c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.441 1.441 1.441c.795 0 1.44-.645 1.44-1.441s-.645-1.44-1.44-1.44z"/></svg>
+                        </a>
+                        <a href="https://github.com/anhsirkkrishna" target="_blank" rel="noopener noreferrer" class="social-icon text-slate-500 hover:text-sky-600" aria-label="GitHub">
+                           <svg class="w-7 h-7" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-                <nav class="flex-grow">
-                    <ul class="space-y-2">
-                        <li><a href="#introduction" class="nav-link block px-4 py-2 rounded-md text-slate-600 hover:bg-slate-100">Introduction</a></li>
-                        <li><a href="#first-hour" class="nav-link block px-4 py-2 rounded-md text-slate-600 hover:bg-slate-100">The First Hour</a></li>
-                        <li><a href="#security" class="nav-link block px-4 py-2 rounded-md text-slate-600 hover:bg-slate-100">Security & Privacy</a></li>
-                        <li><a href="#personalization" class="nav-link block px-4 py-2 rounded-md text-slate-600 hover:bg-slate-100">Personalization</a></li>
-                        <li><a href="#apps" class="nav-link block px-4 py-2 rounded-md text-slate-600 hover:bg-slate-100">App Arsenal</a></li>
-                        <li><a href="#coding" class="nav-link block px-4 py-2 rounded-md text-slate-600 hover:bg-slate-100">Coder's Launchpad</a></li>
-                        <li><a href="#conclusion" class="nav-link block px-4 py-2 rounded-md text-slate-600 hover:bg-slate-100">Conclusion</a></li>
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+
+        <!-- Home Section -->
+        <section id="home" class="content-section active">
+            <div class="text-center">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-slate-900 leading-tight">Master Your New Machine From Day One</h1>
+                <p class="mt-4 max-w-3xl mx-auto text-base sm:text-lg text-slate-600 leading-relaxed">Welcome to your interactive guide for setting up your new MacBook. This tool will walk you through the most important steps, from essential security to powerful workflow customizations, turning your laptop into the ultimate student workstation.</p>
+                <div class="mt-8">
+                    <a href="#first-hour" class="nav-link bg-sky-600 text-white px-6 py-3 sm:px-8 rounded-full font-semibold text-base sm:text-lg hover:bg-sky-700 transition-colors">Let's Get Started</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- First Hour Section -->
+        <section id="first-hour" class="content-section">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">The First Hour: Essential Foundations</h2>
+                <p class="mt-2 max-w-2xl mx-auto text-md text-slate-600 leading-relaxed">These are the most critical, non-negotiable steps. Completing this checklist establishes a secure and stable foundation for your new MacBook.</p>
+            </div>
+            <div class="space-y-6 max-w-4xl mx-auto">
+                <!-- Security Checklist Item -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" data-toggle="detail-1">
+                        <div class="flex items-center">
+                            <input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-sky-600 focus:ring-sky-600 mr-4" onclick="event.stopPropagation();">
+                            <h3 class="text-lg font-semibold text-slate-800">1. Check for macOS Updates</h3>
+                        </div>
+                        <span class="text-sky-500 transform transition-transform duration-300">▼</span>
+                    </button>
+                    <div id="detail-1" class="detail-content px-5 pb-5 text-slate-600">
+                        <p class="mb-2"><strong>Why:</strong> Your new Mac might have an older OS version with known security flaws. Updating immediately is the single most important security step.</p>
+                        <p><strong>How:</strong> Go to <code class="text-sm bg-slate-100 p-1 rounded">Apple menu &gt; System Settings &gt; General &gt; Software Update</code>. Install any available updates. Turn on "Automatic Updates" to stay protected effortlessly.</p>
+                    </div>
+                </div>
+                <!-- Security Checklist Item -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" data-toggle="detail-2">
+                        <div class="flex items-center">
+                            <input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-sky-600 focus:ring-sky-600 mr-4" onclick="event.stopPropagation();">
+                            <h3 class="text-lg font-semibold text-slate-800">2. Enable FileVault Encryption</h3>
+                        </div>
+                        <span class="text-sky-500 transform transition-transform duration-300">▼</span>
+                    </button>
+                    <div id="detail-2" class="detail-content px-5 pb-5 text-slate-600">
+                        <p class="mb-2"><strong>Why:</strong> FileVault encrypts your entire hard drive, making your data unreadable if your MacBook is lost or stolen. It's essential protection for your academic work and personal information.</p>
+                        <p><strong>How:</strong> Go to <code class="text-sm bg-slate-100 p-1 rounded">System Settings &gt; Privacy & Security &gt; FileVault</code> and click "Turn On". Be sure to save your recovery key in a safe place separate from your computer.</p>
+                    </div>
+                </div>
+                <!-- Security Checklist Item -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" data-toggle="detail-3">
+                        <div class="flex items-center">
+                            <input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-sky-600 focus:ring-sky-600 mr-4" onclick="event.stopPropagation();">
+                            <h3 class="text-lg font-semibold text-slate-800">3. Activate the Firewall</h3>
+                        </div>
+                        <span class="text-sky-500 transform transition-transform duration-300">▼</span>
+                    </button>
+                    <div id="detail-3" class="detail-content px-5 pb-5 text-slate-600">
+                        <p class="mb-2"><strong>Why:</strong> The firewall blocks unauthorized incoming network connections, adding a crucial layer of defense, especially on public Wi-Fi networks like those on campus.</p>
+                        <p><strong>How:</strong> Go to <code class="text-sm bg-slate-100 p-1 rounded">System Settings &gt; Network &gt; Firewall</code> and toggle it on. The default settings are perfect for most users.</p>
+                    </div>
+                </div>
+                <!-- Security Checklist Item -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" data-toggle="detail-4">
+                        <div class="flex items-center">
+                            <input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-sky-600 focus:ring-sky-600 mr-4" onclick="event.stopPropagation();">
+                            <h3 class="text-lg font-semibold text-slate-800">4. Configure Touch ID</h3>
+                        </div>
+                        <span class="text-sky-500 transform transition-transform duration-300">▼</span>
+                    </button>
+                    <div id="detail-4" class="detail-content px-5 pb-5 text-slate-600">
+                        <p class="mb-2"><strong>Why:</strong> It's a secure and incredibly convenient way to unlock your Mac, authorize purchases, and autofill passwords, saving you time and keystrokes.</p>
+                        <p><strong>How:</strong> Go to <code class="text-sm bg-slate-100 p-1 rounded">System Settings &gt; Touch ID & Password</code> and "Add Fingerprint". Add at least one finger from each hand for flexibility.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Customize Section -->
+        <section id="customize" class="content-section">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Crafting Your Digital Cockpit</h2>
+                <p class="mt-2 max-w-2xl mx-auto text-md text-slate-600 leading-relaxed">Tailor the macOS interface for maximum productivity. Mastering these settings is key to unlocking a faster, more intuitive workflow.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Trackpad Gestures -->
+                <div class="card bg-white rounded-xl p-6 border border-slate-200">
+                    <h3 class="font-bold text-xl mb-4 text-slate-800">Master Trackpad Gestures</h3>
+                    <p class="text-slate-600 mb-4">Your trackpad is a superpower. Learn these gestures to navigate macOS like a pro. Enable "Tap to Click" in <code class="text-sm bg-slate-100 p-1 rounded">System Settings &gt; Trackpad</code> for a huge speed boost.</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start"><span class="text-sky-500 mr-2 mt-1">▲</span> <strong>Mission Control:</strong> Swipe up with 3/4 fingers to see all open windows.</li>
+                        <li class="flex items-start"><span class="text-sky-500 mr-2 mt-1">▼</span> <strong>App Exposé:</strong> Swipe down with 3/4 fingers to see all windows of the current app.</li>
+                        <li class="flex items-start"><span class="text-sky-500 mr-2 mt-1">◀▶</span> <strong>Switch Spaces:</strong> Swipe left/right with 3/4 fingers to move between virtual desktops.</li>
+                        <li class="flex items-start"><span class="text-sky-500 mr-2 mt-1">⎚</span> <strong>Show Desktop:</strong> Spread thumb and 3 fingers to instantly see the desktop.</li>
                     </ul>
-                </nav>
+                </div>
 
-                <div class="mt-auto">
-                     <div class="flex space-x-4">
-                        <a href="https://www.linkedin.com/in/krishnaagarwaldesigns/" target="_blank" class="text-slate-400 hover:text-indigo-600">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                        </a>
-                        <a href="https://www.instagram.com/_agarwalkrishna_/" target="_blank" class="text-slate-400 hover:text-indigo-600">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.85s.012-3.584.07-4.85c.148-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.947s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"/></svg>
-                        </a>
-                        <a href="https://github.com/anhsirkkrishna" target="_blank" class="text-slate-400 hover:text-indigo-600">
-                           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                        </a>
+                <!-- Dock & Menu Bar -->
+                <div class="card bg-white rounded-xl p-6 border border-slate-200">
+                    <h3 class="font-bold text-xl mb-4 text-slate-800">Personalize Dock & Menu Bar</h3>
+                    <p class="text-slate-600 mb-4">Reclaim screen real estate and create a stable, personalized launchpad for your most-used apps and controls.</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start"><span class="text-amber-500 mr-2 mt-1">★</span> Drag apps on/off the Dock to customize it. Right-click an icon and select "Options > Keep in Dock".</li>
+                        <li class="flex items-start"><span class="text-amber-500 mr-2 mt-1">★</span> In <code class="text-sm bg-slate-100 p-1 rounded">Desktop & Dock</code> settings, turn off "Show suggested and recent apps" for a static Dock.</li>
+                        <li class="flex items-start"><span class="text-amber-500 mr-2 mt-1">★</span> Hold <code class="text-sm bg-slate-100 p-1 rounded">Command (⌘)</code> and drag Menu Bar icons to reorder them.</li>
+                    </ul>
+                </div>
+
+                <!-- Workspace & Hot Corners -->
+                <div class="card bg-white rounded-xl p-6 border border-slate-200">
+                    <h3 class="font-bold text-xl mb-4 text-slate-800">Organize Your Workspace</h3>
+                    <p class="text-slate-600 mb-4">Use virtual desktops (Spaces) and Hot Corners to create focused environments for each of your classes or projects.</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start"><span class="text-emerald-500 mr-2 mt-1">❖</span> Enter Mission Control (swipe up) and click the `+` to create a new Space (e.g., one for 'Research', one for 'Writing').</li>
+                        <li class="flex items-start"><span class="text-emerald-500 mr-2 mt-1">❖</span> Set up Hot Corners in <code class="text-sm bg-slate-100 p-1 rounded">Desktop & Dock</code> settings.</li>
+                        <li class="flex items-start"><span class="text-emerald-500 mr-2 mt-1">❖</span> <strong>Pro Tip:</strong> Hold a modifier key (like <code class="text-sm bg-slate-100 p-1 rounded">⌘</code> or <code class="text-sm bg-slate-100 p-1 rounded">⌥</code>) when selecting a Hot Corner action to prevent accidental triggers.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Toolkit Section -->
+        <section id="toolkit" class="content-section">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">The Student's Toolkit</h2>
+                <p class="mt-2 max-w-2xl mx-auto text-md text-slate-600 leading-relaxed">Equip your Mac with essential apps and implement a bulletproof data protection strategy. This is one of the most important sections to master.</p>
+            </div>
+
+            <!-- App Recommendations -->
+            <div class="mb-16">
+                <h3 class="text-xl sm:text-2xl font-bold text-center mb-6 text-slate-800">Essential Free Apps for Students</h3>
+                <div class="flex justify-center flex-wrap gap-2 mb-6" id="app-filters">
+                    <button class="app-filter-btn active bg-sky-600 text-white px-4 py-2 rounded-full text-sm font-semibold" data-filter="all">All</button>
+                    <button class="app-filter-btn bg-white text-slate-600 px-4 py-2 rounded-full text-sm font-semibold border border-slate-300 hover:bg-slate-100" data-filter="org">Organization</button>
+                    <button class="app-filter-btn bg-white text-slate-600 px-4 py-2 rounded-full text-sm font-semibold border border-slate-300 hover:bg-slate-100" data-filter="research">Research</button>
+                    <button class="app-filter-btn bg-white text-slate-600 px-4 py-2 rounded-full text-sm font-semibold border border-slate-300 hover:bg-slate-100" data-filter="writing">Writing</button>
+                </div>
+                <div id="app-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- App cards will be injected here by JS -->
+                </div>
+            </div>
+
+            <!-- Backup Strategy -->
+            <div>
+                <h3 class="text-xl sm:text-2xl font-bold text-center mb-2 text-slate-800">Your Digital Safety Net: Time Machine vs. iCloud</h3>
+                <p class="text-center text-slate-600 max-w-3xl mx-auto mb-8">This is not optional. Understanding this difference protects your priceless work. They are not the same: <strong>iCloud is for Sync, Time Machine is for Backup.</strong></p>
+                <div class="bg-white rounded-xl p-4 sm:p-6 border border-slate-200">
+                    <div class="chart-container">
+                        <canvas id="backupChart"></canvas>
+                    </div>
+                    <div id="backup-explanation" class="text-center mt-4 text-slate-600 text-sm sm:text-base">
+                        <!-- Explanation text will be updated by JS -->
+                    </div>
+                    <div class="flex justify-center flex-wrap gap-2 mt-6" id="backup-controls">
+                        <button class="backup-control-btn active bg-sky-100 text-sky-800 px-4 py-2 rounded-full text-sm font-semibold" data-criteria="purpose">Purpose</button>
+                        <button class="backup-control-btn bg-slate-100 text-slate-700 px-4 py-2 rounded-full text-sm font-semibold" data-criteria="what">What's Saved</button>
+                        <button class="backup-control-btn bg-slate-100 text-slate-700 px-4 py-2 rounded-full text-sm font-semibold" data-criteria="versions">Version History</button>
+                        <button class="backup-control-btn bg-slate-100 text-slate-700 px-4 py-2 rounded-full text-sm font-semibold" data-criteria="cost">Cost</button>
                     </div>
                 </div>
             </div>
-        </aside>
+        </section>
 
-        <!-- Mobile Header -->
-        <header class="md:hidden flex items-center justify-between w-full p-4 bg-white border-b border-slate-200 fixed top-0 left-0 z-10">
-            <h1 class="text-lg font-bold text-slate-900">MacBook Setup Guide</h1>
-            <button id="menu-toggle" class="p-2">
-                <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-            </button>
-        </header>
-
-        <!-- Main Content -->
-        <main class="md:ml-64 flex-1 p-6 md:p-10 mt-16 md:mt-0">
-            <div id="introduction" class="content-section">
-                <h2 class="text-3xl font-bold mb-4 text-slate-900">Unboxing Your Potential</h2>
-                <p class="text-lg text-slate-600 mb-6">Receiving a new MacBook, especially as you begin your journey in a demanding field like Data Science and AI, is more than just getting a new piece of hardware. It's an opportunity to build a powerful, personalized environment that will support your learning, coding, and creativity for years to come. This guide is designed to be your trusted companion through that initial setup process.</p>
-                <p class="text-slate-600">The goal here is not simply to list a series of steps but to help you transform this machine from a generic tool into a bespoke workstation. We will move beyond the defaults, making intentional choices that enhance security, boost productivity, and lay a professional-grade foundation for your coding projects. This process is divided into five key phases: establishing the foundations in the first hour, hardening security, personalizing your workflow, installing an arsenal of essential apps, and finally, building a robust developer environment tailored for Data Science and AI.</p>
-            </div>
-
-            <div id="first-hour" class="content-section">
-                <h2 class="text-3xl font-bold mb-2 text-slate-900">The First Hour</h2>
-                <p class="text-lg text-slate-500 mb-8">Foundational Setup</p>
-                
-                <div class="space-y-8">
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-3">1.1 The Welcome Mat: Navigating Setup Assistant</h3>
-                        <p class="text-slate-600">When you first open your MacBook, the Setup Assistant will guide you through the basics. It's highly recommended to **set up as a new Mac** instead of using Migration Assistant. A fresh start ensures you don't carry over old files or clutter, resulting in a leaner, faster system from day one.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-3">1.2 System Integrity Check: Updates First, Always</h3>
-                        <p class="text-slate-600 mb-4">Before anything else, ensure your system is fully updated to patch security risks and prevent compatibility issues.</p>
-                        <ul class="list-disc list-inside space-y-2 text-slate-600">
-                            <li><b>macOS System Updates:</b> Go to <span class="font-semibold">Apple Menu &rarr; System Settings &rarr; General &rarr; Software Update</span>.</li>
-                            <li><b>Mac App Store Updates:</b> Open the <span class="font-semibold">App Store</span> and click the <span class="font-semibold">Updates</span> tab.</li>
-                        </ul>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-3">1.3 Digital Declutter: Creating a Clean Slate</h3>
-                        <p class="text-slate-600">Remove pre-installed apps you won't use (like GarageBand or iMovie) to free up space. Open <span class="font-semibold">Finder &rarr; Applications</span>, right-click an app, and select <span class="font-semibold">Move to Bin</span>. Empty the Bin to finalize.</p>
-                    </div>
-                </div>
+        <!-- Power Up Section -->
+        <section id="power-up" class="content-section">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Becoming a Power User</h2>
+                <p class="mt-2 max-w-2xl mx-auto text-md text-slate-600 leading-relaxed">Cultivate habits and learn advanced techniques that will save you hours of work over your academic career.</p>
             </div>
             
-            <div id="security" class="content-section">
-                <h2 class="text-3xl font-bold mb-2 text-slate-900">Fort Knox Foundation</h2>
-                <p class="text-lg text-slate-500 mb-8">Essential Security & Privacy</p>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-3">2.1 Login & Access Control</h3>
-                        <p class="text-slate-600">Use a strong, unique password and set up Touch ID. Set your Mac to lock <span class="font-semibold">immediately</span> upon sleep in <span class="font-semibold">System Settings &rarr; Lock Screen</span>.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-3">2.2 Data Encryption with FileVault</h3>
-                        <p class="text-slate-600">Enable full-disk encryption to protect your data if your Mac is lost or stolen. Go to <span class="font-semibold">System Settings &rarr; Privacy & Security &rarr; FileVault</span> and turn it on. Using your iCloud account for recovery is the most convenient option.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-3">2.3 Configure the macOS Firewall</h3>
-                        <p class="text-slate-600">The firewall is off by default. Enable it for crucial protection on public Wi-Fi. Go to <span class="font-semibold">System Settings &rarr; Network &rarr; Firewall</span> and turn it on. Consider enabling "Stealth Mode" in the options.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-3">2.4 Master App Permissions</h3>
-                        <p class="text-slate-600">Review and manage app permissions in <span class="font-semibold">System Settings &rarr; Privacy & Security</span>. Grant apps only the permissions they absolutely need. Ensure "Allow applications downloaded from" is set to <span class="font-semibold">"App Store and identified developers."</span></p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm md:col-span-2">
-                        <h3 class="text-xl font-semibold mb-3">2.5 The Safety Net: Time Machine</h3>
-                        <p class="text-slate-600">Regular backups are non-negotiable. Use an external drive (at least 2x your Mac's storage) to set up Time Machine for automatic, hourly backups. Connect the drive and follow the prompts, or configure it in <span class="font-semibold">System Settings &rarr; General &rarr; Time Machine</span>.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Keyboard Shortcuts -->
+                <div class="bg-white rounded-xl p-6 border border-slate-200">
+                    <h3 class="font-bold text-xl mb-4 text-slate-800">Indispensable Keyboard Shortcuts</h3>
+                    <input type="text" id="shortcut-search" placeholder="🔎 Search for a shortcut (e.g., 'screenshot')" class="w-full p-2 border border-slate-300 rounded-md mb-4 focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                    <div id="shortcut-list" class="space-y-3 max-h-96 overflow-y-auto pr-2">
+                        <!-- Shortcut list will be injected here by JS -->
                     </div>
                 </div>
-            </div>
 
-            <div id="personalization" class="content-section">
-                <h2 class="text-3xl font-bold mb-2 text-slate-900">Making It Yours</h2>
-                <p class="text-lg text-slate-500 mb-8">Personalization & Workflow</p>
-                <div class="space-y-8">
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-3">3.1 Mastering the Magic Trackpad</h3>
-                        <p class="text-slate-600 mb-4">In <span class="font-semibold">System Settings &rarr; Trackpad</span>, enable <span class="font-semibold">"Tap to click"</span> and increase the <span class="font-semibold">"Tracking speed"</span> for a faster, more fluid experience. Learn these core gestures:</p>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left">
-                                <thead class="bg-slate-50">
-                                    <tr>
-                                        <th class="p-3 font-semibold">Gesture</th>
-                                        <th class="p-3 font-semibold">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="border-b">
-                                        <td class="p-3">Three-finger swipe up</td>
-                                        <td class="p-3">Open Mission Control to see all open windows.</td>
-                                    </tr>
-                                    <tr class="border-b">
-                                        <td class="p-3">Three-finger swipe left/right</td>
-                                        <td class="p-3">Switch between full-screen apps and desktops.</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-3">Pinch with thumb & three fingers</td>
-                                        <td class="p-3">Show Launchpad to see all your apps.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-3">3.2 Taming the Dock & Menu Bar</h3>
-                        <p class="text-slate-600">Keep your Dock clean with only essential apps. In <span class="font-semibold">System Settings &rarr; Desktop & Dock</span>, enable <span class="font-semibold">"Automatically hide and show the Dock"</span> and disable <span class="font-semibold">"Show recent applications in Dock"</span> to maximize screen space.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-3">3.3 Finder Finesse</h3>
-                        <p class="text-slate-600 mb-4">Optimize Finder for a developer workflow:</p>
-                        <ul class="list-disc list-inside space-y-2 text-slate-600">
-                           <li>In <span class="font-semibold">Finder &rarr; Settings &rarr; General</span>, set "New Finder windows show:" to your Home Folder.</li>
-                           <li>In the <span class="font-semibold">View</span> menu, select <span class="font-semibold">Show Path Bar</span> and <span class="font-semibold">Show Status Bar</span> for more context.</li>
-                           <li>Set your preferred view (Columns view is great for developers) and click <span class="font-semibold">"Use as Defaults"</span> in View Options.</li>
-                        </ul>
-                    </div>
+                <!-- Battery Health -->
+                <div class="bg-white rounded-xl p-6 border border-slate-200">
+                    <h3 class="font-bold text-xl mb-4 text-slate-800">Maintain Battery Health</h3>
+                    <p class="text-slate-600 mb-4">Follow these simple habits to prolong the life and daily runtime of your MacBook's battery.</p>
+                    <ul class="space-y-3 text-slate-700">
+                        <li class="flex items-start"><span class="text-amber-500 mr-3 mt-1 text-lg">⚡️</span><div><strong>Enable Optimized Charging:</strong> In <code class="text-sm bg-slate-100 p-1 rounded">Battery</code> settings, this feature learns your routine to reduce battery aging.</div></li>
+                        <li class="flex items-start"><span class="text-amber-500 mr-3 mt-1 text-lg">🔋</span><div><strong>Follow the 20-80% Rule:</strong> Try to keep your battery between 20% and 80% to reduce stress on it. Avoid leaving it at 100% or 0% for long periods.</div></li>
+                        <li class="flex items-start"><span class="text-amber-500 mr-3 mt-1 text-lg">🌡️</span><div><strong>Keep it Cool:</strong> Avoid using your Mac on soft surfaces like blankets that block ventilation. Heat is the battery's worst enemy.</div></li>
+                        <li class="flex items-start"><span class="text-amber-500 mr-3 mt-1 text-lg">🧐</span><div><strong>Identify Energy Hogs:</strong> Use the <code class="text-sm bg-slate-100 p-1 rounded">Activity Monitor</code> app's "Energy" tab to see which apps are draining your battery the most.</div></li>
+                    </ul>
                 </div>
             </div>
-            
-            <div id="apps" class="content-section">
-                <h2 class="text-3xl font-bold mb-2 text-slate-900">The App Arsenal</h2>
-                <p class="text-lg text-slate-500 mb-8">Essential Software</p>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-2">Google Chrome</h3>
-                        <p class="text-slate-600">A practical choice for its extension library and seamless integration with Google services.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-2">Notion / Obsidian</h3>
-                        <p class="text-slate-600">Powerful "second brain" apps for organizing notes, tasks, and knowledge. Notion is an all-in-one workspace, while Obsidian excels at linked, local-first notes.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-2">Rectangle</h3>
-                        <p class="text-slate-600">A free, essential utility that brings window snapping functionality to macOS for easy multitasking.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-2">Raycast / Alfred</h3>
-                        <p class="text-slate-600">Supercharged application launchers that replace Spotlight with powerful workflows, calculations, and clipboard history.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-2">Bitwarden</h3>
-                        <p class="text-slate-600">A free, open-source, and cross-platform password manager to keep your accounts secure everywhere.</p>
-                    </div>
-                     <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-2">CleanShot X</h3>
-                        <p class="text-slate-600">A massive upgrade to the default screenshot tool, with scrolling captures, advanced annotation, and cloud sharing.</p>
-                    </div>
-                </div>
-            </div>
+        </section>
 
-            <div id="coding" class="content-section">
-                 <h2 class="text-3xl font-bold mb-2 text-slate-900">The Coder's Launchpad</h2>
-                <p class="text-lg text-slate-500 mb-8">A Foundation for DS & AI</p>
+    </main>
 
-                <div class="space-y-8">
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-3">5.1 Prerequisite: Xcode Command Line Tools</h3>
-                        <p class="text-slate-600 mb-4">This package includes essential tools like Git and compilers needed for development. Install it by running this command in the Terminal app:</p>
-                        <div class="code-block">
-                            <pre><code class="language-bash block bg-slate-800 text-white p-4 rounded-md overflow-x-auto">xcode-select --install</code></pre>
-                            <button class="copy-btn">Copy</button>
-                        </div>
-                    </div>
+    <footer class="bg-slate-100 mt-16">
+        <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-sm">
+            <p>Interactive Guide based on "The Ultimate MacBook Setup Guide for the Modern Student".</p>
+            <p>&copy; 2025. Designed to make your academic life easier.</p>
+        </div>
+    </footer>
 
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-3">5.2 Package Manager: Homebrew</h3>
-                        <p class="text-slate-600 mb-4">Homebrew is "The Missing Package Manager for macOS," used to install thousands of open-source tools. Install it with:</p>
-                        <div class="code-block">
-                            <pre><code class="language-bash block bg-slate-800 text-white p-4 rounded-md overflow-x-auto">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
-                            <button class="copy-btn">Copy</button>
-                        </div>
-                        <p class="text-slate-600 mt-4"><span class="font-bold text-red-600">Critical:</span> On Apple Silicon (M1/M2/M3) Macs, you <span class="font-bold">must</span> run the two "Next steps" commands shown at the end of the installation to add Homebrew to your PATH.</p>
-                    </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
 
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-3">5.3 Modern Terminal: iTerm2 & Oh My Zsh</h3>
-                        <p class="text-slate-600 mb-4">Upgrade the default Terminal with iTerm2 for features like split panes and better search. Then, enhance your shell with Oh My Zsh for powerful plugins and themes.</p>
-                        <p class="text-slate-600 mb-2">Install iTerm2:</p>
-                        <div class="code-block">
-                            <pre><code class="language-bash block bg-slate-800 text-white p-4 rounded-md overflow-x-auto">brew install --cask iterm2</code></pre>
-                            <button class="copy-btn">Copy</button>
-                        </div>
-                        <p class="text-slate-600 mt-4 mb-2">Install Oh My Zsh:</p>
-                         <div class="code-block">
-                            <pre><code class="language-bash block bg-slate-800 text-white p-4 rounded-md overflow-x-auto">sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"</code></pre>
-                            <button class="copy-btn">Copy</button>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-3">5.4 Core Language: Python with Miniconda</h3>
-                        <p class="text-slate-600 mb-4">Do not use the system Python. The industry standard is to use a dedicated distribution like Miniconda to manage isolated project environments. Install it with:</p>
-                        <div class="code-block">
-                            <pre><code class="language-bash block bg-slate-800 text-white p-4 rounded-md overflow-x-auto">curl -sL "https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh" > "Miniconda3.sh"
-bash Miniconda3.sh</code></pre>
-                            <button class="copy-btn">Copy</button>
-                        </div>
-                         <p class="text-slate-600 mt-4">After installation, close and reopen your terminal. Create and activate a project environment with: </p>
-                         <div class="code-block mt-2">
-                            <pre><code class="language-bash block bg-slate-800 text-white p-4 rounded-md overflow-x-auto">conda create -n ds_project python=3.10 pandas numpy jupyter
-conda activate ds_project</code></pre>
-                            <button class="copy-btn">Copy</button>
-                        </div>
-                    </div>
+    const appData = [
+        { name: 'Notion', category: 'org', description: 'The all-in-one workspace for notes, tasks, and databases. A digital brain for all your classes.' },
+        { name: 'Zotero', category: 'research', description: 'The gold standard for academic research. Manages citations and bibliographies automatically.' },
+        { name: 'Obsidian', category: 'org', description: 'A powerful, private, and linked note-taking app. Build a "second brain" of your own.' },
+        { name: 'Grammarly', category: 'writing', description: 'Advanced grammar and style checker. Improves the clarity and professionalism of your writing.' },
+        { name: 'VLC', category: 'writing', description: 'The one media player that will handle any video file a professor sends you, no questions asked.' },
+        { name: 'Pages/Numbers/Keynote', category: 'writing', description: 'Apple\'s powerful and free office suite. Deeply integrated with macOS and iCloud.' }
+    ];
 
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-3">5.5 Code Editor: Visual Studio Code</h3>
-                        <p class="text-slate-600 mb-4">VS Code is the standard for a reason. Install it and its essential Python extensions:</p>
-                        <div class="code-block">
-                            <pre><code class="language-bash block bg-slate-800 text-white p-4 rounded-md overflow-x-auto">brew install --cask visual-studio-code</code></pre>
-                            <button class="copy-btn">Copy</button>
-                        </div>
-                        <p class="text-slate-600 mt-4">Inside VS Code, install the <span class="font-semibold">Python</span> and <span class="font-semibold">Jupyter</span> extensions from the marketplace. Then, use the Command Palette (<span class="font-mono bg-slate-200 px-1 rounded">Cmd+Shift+P</span>) to run <span class="font-semibold">`Python: Select Interpreter`</span> and choose your `ds_project` conda environment.</p>
-                    </div>
-                </div>
-            </div>
+    const shortcutData = [
+        { keys: '⌘ + Spacebar', action: 'Spotlight Search', tip: 'Use for everything: launching apps, finding files, quick math, and conversions.' },
+        { keys: '⌘ + Tab', action: 'Switch Applications', tip: 'Quickly cycle through all your open applications.' },
+        { keys: '⌘ + Q', action: 'Quit Application', tip: 'Completely closes the active app, freeing up system resources.' },
+        { keys: '⌘ + W', action: 'Close Window', tip: 'Closes the current window (like a browser tab) but keeps the app running.' },
+        { keys: '⌘ + F', action: 'Find', tip: 'Your best friend for searching a keyword in a long PDF or webpage.' },
+        { keys: '⌘ + Z', action: 'Undo', tip: 'Instantly reverse your last action. A critical safety net.' },
+        { keys: '⌘ + S', action: 'Save', tip: 'Develop the muscle memory to press this frequently on important work.' },
+        { keys: '⌘ + H', action: 'Hide Application', tip: 'Hides all windows of the current app to reduce clutter.' },
+        { keys: '⌘ + Shift + 5', action: 'Screenshot Utility', tip: 'Opens the advanced screenshot and screen recording tool.' },
+        { keys: '⌃ + ⌘ + Shift + 4', action: 'Screenshot to Clipboard', tip: 'Copies a selected area directly to your clipboard, ready to paste.' },
+        { keys: '⌥ + ⌘ + Esc', action: 'Force Quit', tip: 'Brings up the Force Quit menu for unresponsive apps.' },
+        { keys: '⌃ + Left/Right Arrow', action: 'Switch Spaces', tip: 'The keyboard way to move between your virtual desktops.' }
+    ];
 
-            <div id="conclusion" class="content-section">
-                <h2 class="text-3xl font-bold mb-4 text-slate-900">Ready for Launch</h2>
-                <p class="text-lg text-slate-600 mb-6">Congratulations. You have successfully navigated the complete setup of your new MacBook. You have progressed far beyond the factory defaults, transforming a generic device into a secure, highly personalized, and developer-ready workstation.</p>
-                <p class="text-slate-600">You've established a solid foundation, built a robust security posture, mastered an efficient workflow, and installed a suite of powerful applications. Most importantly, you have laid a professional-grade foundation for your work in Data Science and AI. This machine is now more than just a laptop; it is a tool sharpened and tailored for the challenges and opportunities that await you in your B.Tech program. It is ready for launch.</p>
-            </div>
-        </main>
-    </div>
+    const backupData = {
+        purpose: {
+            labels: ['Time Machine', 'iCloud'],
+            datasets: [{
+                label: 'Focus',
+                data: [100, 50],
+                backgroundColor: ['#0ea5e9', '#f59e0b'],
+                borderColor: ['#0284c7', '#d97706'],
+                borderWidth: 1
+            }],
+            explanation: '<strong>Time Machine is for Disaster Recovery & Archiving.</strong> It saves everything so you can restore your entire Mac. <strong>iCloud is for Cross-Device Access & Sync.</strong> It keeps specific files available on your iPhone and iPad.'
+        },
+        what: {
+            labels: ['Time Machine', 'iCloud'],
+            datasets: [{
+                label: 'Data Coverage',
+                data: [100, 30],
+                backgroundColor: ['#0ea5e9', '#f59e0b'],
+                borderColor: ['#0284c7', '#d97706'],
+                borderWidth: 1
+            }],
+            explanation: '<strong>Time Machine saves EVERYTHING:</strong> your OS, apps, settings, and all files. <strong>iCloud saves specific data you choose:</strong> Photos, Contacts, and files in iCloud Drive.'
+        },
+        versions: {
+            labels: ['Time Machine', 'iCloud'],
+            datasets: [{
+                label: 'History Depth',
+                data: [100, 20],
+                backgroundColor: ['#0ea5e9', '#f59e0b'],
+                borderColor: ['#0284c7', '#d97706'],
+                borderWidth: 1
+            }],
+            explanation: '<strong>Time Machine keeps deep, long-term versions.</strong> You can recover a file from months ago. <strong>iCloud has very limited version history,</strong> like a 30-day recovery for deleted files.'
+        },
+        cost: {
+            labels: ['Time Machine', 'iCloud'],
+            datasets: [{
+                label: 'Cost Model',
+                data: [40, 80],
+                backgroundColor: ['#0ea5e9', '#f59e0b'],
+                borderColor: ['#0284c7', '#d97706'],
+                borderWidth: 1
+            }],
+            explanation: '<strong>Time Machine is a one-time cost</strong> for an external drive. <strong>iCloud is a monthly subscription</strong> for storage beyond the small free tier. The bars represent ongoing cost potential.'
+        }
+    };
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('.nav-link');
-            const contentSections = document.querySelectorAll('.content-section');
-            const menuToggle = document.getElementById('menu-toggle');
-            const sidebar = document.getElementById('sidebar');
+    // Navigation
+    const navLinks = document.querySelectorAll('.nav-link');
+    const contentSections = document.querySelectorAll('.content-section');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const closeIcon = document.getElementById('close-icon');
 
-            function updateContent(hash) {
-                const targetHash = hash || window.location.hash || '#introduction';
-                
-                let targetSection = null;
-                contentSections.forEach(section => {
-                    if ('#' + section.id === targetHash) {
-                        section.classList.add('active');
-                        targetSection = section;
-                    } else {
-                        section.classList.remove('active');
-                    }
-                });
-
-                if (!targetSection) {
-                    document.getElementById('introduction').classList.add('active');
-                }
-
-                navLinks.forEach(link => {
-                    if (link.getAttribute('href') === targetHash) {
-                        link.classList.add('active');
-                    } else {
-                        link.classList.remove('active');
-                    }
-                });
-
-                // Close sidebar on mobile after navigation
-                if (sidebar.classList.contains('translate-x-0')) {
-                    sidebar.classList.add('-translate-x-full');
-                    sidebar.classList.remove('translate-x-0');
-                }
+    function updateActiveNav(hash) {
+        // Desktop nav links
+        document.querySelectorAll('header .hidden.md\\:flex .nav-link').forEach(link => {
+            if (link.getAttribute('href') === hash) {
+                link.classList.add('text-sky-600', 'border-sky-600');
+                link.classList.remove('text-slate-600', 'border-transparent');
+            } else {
+                link.classList.remove('text-sky-600', 'border-sky-600');
+                link.classList.add('text-slate-600', 'border-transparent');
             }
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetHash = this.getAttribute('href');
-                    history.pushState(null, null, targetHash);
-                    updateContent(targetHash);
-                });
-            });
-            
-            window.addEventListener('popstate', () => {
-                updateContent(window.location.hash);
-            });
-
-            // Initial load
-            updateContent();
-
-            // Copy button functionality
-            const copyButtons = document.querySelectorAll('.copy-btn');
-            copyButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const code = button.previousElementSibling.querySelector('code').innerText;
-                    navigator.clipboard.writeText(code).then(() => {
-                        button.textContent = 'Copied!';
-                        button.classList.add('copy-btn-copied');
-                        setTimeout(() => {
-                            button.textContent = 'Copy';
-                            button.classList.remove('copy-btn-copied');
-                        }, 2000);
-                    });
-                });
-            });
-
-            // Mobile menu toggle
-            menuToggle.addEventListener('click', () => {
-                sidebar.classList.toggle('-translate-x-full');
-                sidebar.classList.toggle('translate-x-0');
-            });
         });
-    </script>
+        
+        contentSections.forEach(section => {
+            if ('#' + section.id === hash) {
+                section.classList.add('active');
+            } else {
+                section.classList.remove('active');
+            }
+        });
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const hash = e.currentTarget.getAttribute('href');
+            history.pushState(null, null, hash);
+            updateActiveNav(hash);
+            // Close mobile menu on navigation
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+                hamburgerIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        });
+    });
+
+    mobileMenuButton.addEventListener('click', () => {
+        const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+        mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+        mobileMenu.classList.toggle('hidden');
+        hamburgerIcon.classList.toggle('hidden');
+        closeIcon.classList.toggle('hidden');
+    });
+
+    // Accordion/Detail Toggles
+    const detailToggles = document.querySelectorAll('[data-toggle]');
+    detailToggles.forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            const detailId = toggle.getAttribute('data-toggle');
+            const detailContent = document.getElementById(detailId);
+            const arrow = toggle.querySelector('span');
+
+            if (detailContent.style.maxHeight) {
+                detailContent.style.maxHeight = null;
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                detailContent.style.maxHeight = detailContent.scrollHeight + "px";
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        });
+    });
+
+    // App Toolkit
+    const appGrid = document.getElementById('app-grid');
+    const appFilterBtns = document.querySelectorAll('.app-filter-btn');
+
+    function renderApps(filter = 'all') {
+        appGrid.innerHTML = '';
+        const filteredApps = filter === 'all' ? appData : appData.filter(app => app.category === filter);
+        filteredApps.forEach(app => {
+            const card = document.createElement('div');
+            card.className = 'card bg-white rounded-xl p-6 border border-slate-200';
+            card.innerHTML = `
+                <h4 class="font-bold text-lg text-slate-800">${app.name}</h4>
+                <p class="text-slate-600 text-sm mt-1 leading-relaxed">${app.description}</p>
+            `;
+            appGrid.appendChild(card);
+        });
+    }
+
+    appFilterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            appFilterBtns.forEach(b => b.classList.remove('active', 'bg-sky-600', 'text-white'));
+            appFilterBtns.forEach(b => b.classList.add('bg-white', 'text-slate-600'));
+            btn.classList.add('active', 'bg-sky-600', 'text-white');
+            btn.classList.remove('bg-white', 'text-slate-600');
+            renderApps(btn.dataset.filter);
+        });
+    });
+
+    // Backup Chart
+    const ctx = document.getElementById('backupChart').getContext('2d');
+    const backupExplanation = document.getElementById('backup-explanation');
+    const backupControlBtns = document.querySelectorAll('.backup-control-btn');
+    let backupChart;
+
+    function createOrUpdateBackupChart(criteria) {
+        const data = backupData[criteria];
+        backupExplanation.innerHTML = data.explanation;
+        if (backupChart) {
+            backupChart.data.labels = data.labels;
+            backupChart.data.datasets = data.datasets;
+            backupChart.update();
+        } else {
+            backupChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            display: false,
+                            max: 100,
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: { display: false },
+                            ticks: { font: { size: 14, weight: '600' } }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    }
+                }
+            });
+        }
+    }
+
+    backupControlBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            backupControlBtns.forEach(b => b.classList.remove('active', 'bg-sky-100', 'text-sky-800'));
+            backupControlBtns.forEach(b => b.classList.add('bg-slate-100', 'text-slate-700'));
+            btn.classList.add('active', 'bg-sky-100', 'text-sky-800');
+            btn.classList.remove('bg-slate-100', 'text-slate-700');
+            createOrUpdateBackupChart(btn.dataset.criteria);
+        });
+    });
+
+    // Shortcut Search
+    const shortcutSearch = document.getElementById('shortcut-search');
+    const shortcutList = document.getElementById('shortcut-list');
+
+    function renderShortcuts(searchTerm = '') {
+        shortcutList.innerHTML = '';
+        const filteredShortcuts = shortcutData.filter(s => 
+            s.action.toLowerCase().includes(searchTerm.toLowerCase()) || 
+            s.keys.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        filteredShortcuts.forEach(sc => {
+            const item = document.createElement('div');
+            item.className = 'p-2 rounded-md hover:bg-slate-50';
+            item.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <span class="font-semibold text-slate-700">${sc.action}</span>
+                    <code class="text-sm bg-slate-200 text-slate-800 px-2 py-1 rounded">${sc.keys}</code>
+                </div>
+                <p class="text-xs text-slate-500 mt-1 leading-relaxed">${sc.tip}</p>
+            `;
+            shortcutList.appendChild(item);
+        });
+    }
+
+    shortcutSearch.addEventListener('input', (e) => {
+        renderShortcuts(e.target.value);
+    });
+
+    // Initial Load
+    const initialHash = window.location.hash || '#home';
+    updateActiveNav(initialHash);
+    renderApps();
+    createOrUpdateBackupChart('purpose');
+    renderShortcuts();
+});
+</script>
 
 </body>
 </html>
