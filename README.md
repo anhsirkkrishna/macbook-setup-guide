@@ -2,8 +2,6 @@
 
 **[➡️ View the Live Website Here](https://anhsirkkrishna.github.io/macbook-setup-guide/)**
 
-*(Note: Replace `macbook-setup-guide` with your actual repository name if it's different.)*
-
 ---
 
 ## About The Project
@@ -22,7 +20,7 @@ This guide was created to be a simple, accessible resource to help every student
 ### Built With
 
 * HTML5
-* [Tailwind CSS](https://tailwindcss.com/)
+* Tailwind CSS
 * Vanilla JavaScript
 
 ---
