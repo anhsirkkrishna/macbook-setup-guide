@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ultimate MacBook Setup Guide | By Krishna Agarwal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: "Soothing Neutrals" -->
+    <!-- Application Structure Plan: A responsive, single-page application with a fixed sidebar for navigation and a main content area. This structure is ideal for a guide, allowing users to easily jump between sections without losing their place. The content is broken into cards and interactive elements (like copyable code blocks) to improve readability and usability. This design prioritizes user flow and quick information retrieval over a simple linear document. -->
+    <!-- Visualization & Content Choices: The primary "visualization" is the information architecture itself. Report Info (Setup Steps) -> Goal (Organize/Inform) -> Presentation (Sidebar Navigation, Content Cards) -> Interaction (Click to navigate, click to copy code) -> Justification (Improves usability for a technical guide). Report Info (Code Commands) -> Goal (Ease of Use) -> Presentation (Styled code blocks) -> Interaction (Copy button) -> Justification (Reduces user error, speeds up setup). -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .nav-link.active {
+            background-color: #eef2ff;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+        .code-block {
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #4b5563;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+        .code-block:hover .copy-btn {
+            opacity: 1;
+        }
+        .copy-btn-copied {
+            background-color: #16a34a;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="w-64 bg-white border-r border-slate-200 p-6 fixed top-0 left-0 h-full overflow-y-auto transition-transform -translate-x-full md:translate-x-0 z-20">
+            <div class="flex flex-col h-full">
+                <div class="mb-8">
+                    <h1 class="text-xl font-bold text-slate-900">MacBook Setup Guide</h1>
+                    <p class="text-sm text-slate-500 mt-1">By <span class="font-semibold">Krishna Agarwal</span></p>
+                </div>
+
+                <nav class="flex-grow">
+                    <ul class="space-y-2">
+                        <li><a href="#introduction" class="nav-link block px-4 py-2 rounded-md text-slate-600 hover:bg-slate-100">Introduction</a></li>
+                        <li><a href="#first-hour" class="nav-link block px-4 py-2 rounded-md text-slate-600 hover:bg-slate-100">The First Hour</a></li>
+                        <li><a href="#security" class="nav-link block px-4 py-2 rounded-md text-slate-600 hover:bg-slate-100">Security & Privacy</a></li>
+                        <li><a href="#personalization" class="nav-link block px-4 py-2 rounded-md text-slate-600 hover:bg-slate-100">Personalization</a></li>
+                        <li><a href="#apps" class="nav-link block px-4 py-2 rounded-md text-slate-600 hover:bg-slate-100">App Arsenal</a></li>
+                        <li><a href="#coding" class="nav-link block px-4 py-2 rounded-md text-slate-600 hover:bg-slate-100">Coder's Launchpad</a></li>
+                        <li><a href="#conclusion" class="nav-link block px-4 py-2 rounded-md text-slate-600 hover:bg-slate-100">Conclusion</a></li>
+                    </ul>
+                </nav>
+
+                <div class="mt-auto">
+                     <div class="flex space-x-4">
+                        <a href="https://www.linkedin.com/in/krishnaagarwaldesigns/" target="_blank" class="text-slate-400 hover:text-indigo-600">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                        <a href="https://www.instagram.com/_agarwalkrishna_/" target="_blank" class="text-slate-400 hover:text-indigo-600">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.85s.012-3.584.07-4.85c.148-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.947s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"/></svg>
+                        </a>
+                        <a href="https://github.com/anhsirkkrishna" target="_blank" class="text-slate-400 hover:text-indigo-600">
+                           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Mobile Header -->
+        <header class="md:hidden flex items-center justify-between w-full p-4 bg-white border-b border-slate-200 fixed top-0 left-0 z-10">
+            <h1 class="text-lg font-bold text-slate-900">MacBook Setup Guide</h1>
+            <button id="menu-toggle" class="p-2">
+                <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </header>
+
+        <!-- Main Content -->
+        <main class="md:ml-64 flex-1 p-6 md:p-10 mt-16 md:mt-0">
+            <div id="introduction" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Unboxing Your Potential</h2>
+                <p class="text-lg text-slate-600 mb-6">Receiving a new MacBook, especially as you begin your journey in a demanding field like Data Science and AI, is more than just getting a new piece of hardware. It's an opportunity to build a powerful, personalized environment that will support your learning, coding, and creativity for years to come. This guide is designed to be your trusted companion through that initial setup process.</p>
+                <p class="text-slate-600">The goal here is not simply to list a series of steps but to help you transform this machine from a generic tool into a bespoke workstation. We will move beyond the defaults, making intentional choices that enhance security, boost productivity, and lay a professional-grade foundation for your coding projects. This process is divided into five key phases: establishing the foundations in the first hour, hardening security, personalizing your workflow, installing an arsenal of essential apps, and finally, building a robust developer environment tailored for Data Science and AI.</p>
+            </div>
+
+            <div id="first-hour" class="content-section">
+                <h2 class="text-3xl font-bold mb-2 text-slate-900">The First Hour</h2>
+                <p class="text-lg text-slate-500 mb-8">Foundational Setup</p>
+                
+                <div class="space-y-8">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-3">1.1 The Welcome Mat: Navigating Setup Assistant</h3>
+                        <p class="text-slate-600">When you first open your MacBook, the Setup Assistant will guide you through the basics. It's highly recommended to **set up as a new Mac** instead of using Migration Assistant. A fresh start ensures you don't carry over old files or clutter, resulting in a leaner, faster system from day one.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-3">1.2 System Integrity Check: Updates First, Always</h3>
+                        <p class="text-slate-600 mb-4">Before anything else, ensure your system is fully updated to patch security risks and prevent compatibility issues.</p>
+                        <ul class="list-disc list-inside space-y-2 text-slate-600">
+                            <li><b>macOS System Updates:</b> Go to <span class="font-semibold">Apple Menu &rarr; System Settings &rarr; General &rarr; Software Update</span>.</li>
+                            <li><b>Mac App Store Updates:</b> Open the <span class="font-semibold">App Store</span> and click the <span class="font-semibold">Updates</span> tab.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-3">1.3 Digital Declutter: Creating a Clean Slate</h3>
+                        <p class="text-slate-600">Remove pre-installed apps you won't use (like GarageBand or iMovie) to free up space. Open <span class="font-semibold">Finder &rarr; Applications</span>, right-click an app, and select <span class="font-semibold">Move to Bin</span>. Empty the Bin to finalize.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="security" class="content-section">
+                <h2 class="text-3xl font-bold mb-2 text-slate-900">Fort Knox Foundation</h2>
+                <p class="text-lg text-slate-500 mb-8">Essential Security & Privacy</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-3">2.1 Login & Access Control</h3>
+                        <p class="text-slate-600">Use a strong, unique password and set up Touch ID. Set your Mac to lock <span class="font-semibold">immediately</span> upon sleep in <span class="font-semibold">System Settings &rarr; Lock Screen</span>.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-3">2.2 Data Encryption with FileVault</h3>
+                        <p class="text-slate-600">Enable full-disk encryption to protect your data if your Mac is lost or stolen. Go to <span class="font-semibold">System Settings &rarr; Privacy & Security &rarr; FileVault</span> and turn it on. Using your iCloud account for recovery is the most convenient option.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-3">2.3 Configure the macOS Firewall</h3>
+                        <p class="text-slate-600">The firewall is off by default. Enable it for crucial protection on public Wi-Fi. Go to <span class="font-semibold">System Settings &rarr; Network &rarr; Firewall</span> and turn it on. Consider enabling "Stealth Mode" in the options.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-3">2.4 Master App Permissions</h3>
+                        <p class="text-slate-600">Review and manage app permissions in <span class="font-semibold">System Settings &rarr; Privacy & Security</span>. Grant apps only the permissions they absolutely need. Ensure "Allow applications downloaded from" is set to <span class="font-semibold">"App Store and identified developers."</span></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm md:col-span-2">
+                        <h3 class="text-xl font-semibold mb-3">2.5 The Safety Net: Time Machine</h3>
+                        <p class="text-slate-600">Regular backups are non-negotiable. Use an external drive (at least 2x your Mac's storage) to set up Time Machine for automatic, hourly backups. Connect the drive and follow the prompts, or configure it in <span class="font-semibold">System Settings &rarr; General &rarr; Time Machine</span>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="personalization" class="content-section">
+                <h2 class="text-3xl font-bold mb-2 text-slate-900">Making It Yours</h2>
+                <p class="text-lg text-slate-500 mb-8">Personalization & Workflow</p>
+                <div class="space-y-8">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-3">3.1 Mastering the Magic Trackpad</h3>
+                        <p class="text-slate-600 mb-4">In <span class="font-semibold">System Settings &rarr; Trackpad</span>, enable <span class="font-semibold">"Tap to click"</span> and increase the <span class="font-semibold">"Tracking speed"</span> for a faster, more fluid experience. Learn these core gestures:</p>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-50">
+                                    <tr>
+                                        <th class="p-3 font-semibold">Gesture</th>
+                                        <th class="p-3 font-semibold">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b">
+                                        <td class="p-3">Three-finger swipe up</td>
+                                        <td class="p-3">Open Mission Control to see all open windows.</td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="p-3">Three-finger swipe left/right</td>
+                                        <td class="p-3">Switch between full-screen apps and desktops.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3">Pinch with thumb & three fingers</td>
+                                        <td class="p-3">Show Launchpad to see all your apps.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-3">3.2 Taming the Dock & Menu Bar</h3>
+                        <p class="text-slate-600">Keep your Dock clean with only essential apps. In <span class="font-semibold">System Settings &rarr; Desktop & Dock</span>, enable <span class="font-semibold">"Automatically hide and show the Dock"</span> and disable <span class="font-semibold">"Show recent applications in Dock"</span> to maximize screen space.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-3">3.3 Finder Finesse</h3>
+                        <p class="text-slate-600 mb-4">Optimize Finder for a developer workflow:</p>
+                        <ul class="list-disc list-inside space-y-2 text-slate-600">
+                           <li>In <span class="font-semibold">Finder &rarr; Settings &rarr; General</span>, set "New Finder windows show:" to your Home Folder.</li>
+                           <li>In the <span class="font-semibold">View</span> menu, select <span class="font-semibold">Show Path Bar</span> and <span class="font-semibold">Show Status Bar</span> for more context.</li>
+                           <li>Set your preferred view (Columns view is great for developers) and click <span class="font-semibold">"Use as Defaults"</span> in View Options.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="apps" class="content-section">
+                <h2 class="text-3xl font-bold mb-2 text-slate-900">The App Arsenal</h2>
+                <p class="text-lg text-slate-500 mb-8">Essential Software</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-2">Google Chrome</h3>
+                        <p class="text-slate-600">A practical choice for its extension library and seamless integration with Google services.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-2">Notion / Obsidian</h3>
+                        <p class="text-slate-600">Powerful "second brain" apps for organizing notes, tasks, and knowledge. Notion is an all-in-one workspace, while Obsidian excels at linked, local-first notes.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-2">Rectangle</h3>
+                        <p class="text-slate-600">A free, essential utility that brings window snapping functionality to macOS for easy multitasking.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-2">Raycast / Alfred</h3>
+                        <p class="text-slate-600">Supercharged application launchers that replace Spotlight with powerful workflows, calculations, and clipboard history.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-2">Bitwarden</h3>
+                        <p class="text-slate-600">A free, open-source, and cross-platform password manager to keep your accounts secure everywhere.</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-2">CleanShot X</h3>
+                        <p class="text-slate-600">A massive upgrade to the default screenshot tool, with scrolling captures, advanced annotation, and cloud sharing.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="coding" class="content-section">
+                 <h2 class="text-3xl font-bold mb-2 text-slate-900">The Coder's Launchpad</h2>
+                <p class="text-lg text-slate-500 mb-8">A Foundation for DS & AI</p>
+
+                <div class="space-y-8">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-3">5.1 Prerequisite: Xcode Command Line Tools</h3>
+                        <p class="text-slate-600 mb-4">This package includes essential tools like Git and compilers needed for development. Install it by running this command in the Terminal app:</p>
+                        <div class="code-block">
+                            <pre><code class="language-bash block bg-slate-800 text-white p-4 rounded-md overflow-x-auto">xcode-select --install</code></pre>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-3">5.2 Package Manager: Homebrew</h3>
+                        <p class="text-slate-600 mb-4">Homebrew is "The Missing Package Manager for macOS," used to install thousands of open-source tools. Install it with:</p>
+                        <div class="code-block">
+                            <pre><code class="language-bash block bg-slate-800 text-white p-4 rounded-md overflow-x-auto">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <p class="text-slate-600 mt-4"><span class="font-bold text-red-600">Critical:</span> On Apple Silicon (M1/M2/M3) Macs, you <span class="font-bold">must</span> run the two "Next steps" commands shown at the end of the installation to add Homebrew to your PATH.</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-3">5.3 Modern Terminal: iTerm2 & Oh My Zsh</h3>
+                        <p class="text-slate-600 mb-4">Upgrade the default Terminal with iTerm2 for features like split panes and better search. Then, enhance your shell with Oh My Zsh for powerful plugins and themes.</p>
+                        <p class="text-slate-600 mb-2">Install iTerm2:</p>
+                        <div class="code-block">
+                            <pre><code class="language-bash block bg-slate-800 text-white p-4 rounded-md overflow-x-auto">brew install --cask iterm2</code></pre>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <p class="text-slate-600 mt-4 mb-2">Install Oh My Zsh:</p>
+                         <div class="code-block">
+                            <pre><code class="language-bash block bg-slate-800 text-white p-4 rounded-md overflow-x-auto">sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"</code></pre>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-3">5.4 Core Language: Python with Miniconda</h3>
+                        <p class="text-slate-600 mb-4">Do not use the system Python. The industry standard is to use a dedicated distribution like Miniconda to manage isolated project environments. Install it with:</p>
+                        <div class="code-block">
+                            <pre><code class="language-bash block bg-slate-800 text-white p-4 rounded-md overflow-x-auto">curl -sL "https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh" > "Miniconda3.sh"
+bash Miniconda3.sh</code></pre>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                         <p class="text-slate-600 mt-4">After installation, close and reopen your terminal. Create and activate a project environment with: </p>
+                         <div class="code-block mt-2">
+                            <pre><code class="language-bash block bg-slate-800 text-white p-4 rounded-md overflow-x-auto">conda create -n ds_project python=3.10 pandas numpy jupyter
+conda activate ds_project</code></pre>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-3">5.5 Code Editor: Visual Studio Code</h3>
+                        <p class="text-slate-600 mb-4">VS Code is the standard for a reason. Install it and its essential Python extensions:</p>
+                        <div class="code-block">
+                            <pre><code class="language-bash block bg-slate-800 text-white p-4 rounded-md overflow-x-auto">brew install --cask visual-studio-code</code></pre>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <p class="text-slate-600 mt-4">Inside VS Code, install the <span class="font-semibold">Python</span> and <span class="font-semibold">Jupyter</span> extensions from the marketplace. Then, use the Command Palette (<span class="font-mono bg-slate-200 px-1 rounded">Cmd+Shift+P</span>) to run <span class="font-semibold">`Python: Select Interpreter`</span> and choose your `ds_project` conda environment.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="conclusion" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Ready for Launch</h2>
+                <p class="text-lg text-slate-600 mb-6">Congratulations. You have successfully navigated the complete setup of your new MacBook. You have progressed far beyond the factory defaults, transforming a generic device into a secure, highly personalized, and developer-ready workstation.</p>
+                <p class="text-slate-600">You've established a solid foundation, built a robust security posture, mastered an efficient workflow, and installed a suite of powerful applications. Most importantly, you have laid a professional-grade foundation for your work in Data Science and AI. This machine is now more than just a laptop; it is a tool sharpened and tailored for the challenges and opportunities that await you in your B.Tech program. It is ready for launch.</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+
+            function updateContent(hash) {
+                const targetHash = hash || window.location.hash || '#introduction';
+                
+                let targetSection = null;
+                contentSections.forEach(section => {
+                    if ('#' + section.id === targetHash) {
+                        section.classList.add('active');
+                        targetSection = section;
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+
+                if (!targetSection) {
+                    document.getElementById('introduction').classList.add('active');
+                }
+
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === targetHash) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+
+                // Close sidebar on mobile after navigation
+                if (sidebar.classList.contains('translate-x-0')) {
+                    sidebar.classList.add('-translate-x-full');
+                    sidebar.classList.remove('translate-x-0');
+                }
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetHash = this.getAttribute('href');
+                    history.pushState(null, null, targetHash);
+                    updateContent(targetHash);
+                });
+            });
+            
+            window.addEventListener('popstate', () => {
+                updateContent(window.location.hash);
+            });
+
+            // Initial load
+            updateContent();
+
+            // Copy button functionality
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const code = button.previousElementSibling.querySelector('code').innerText;
+                    navigator.clipboard.writeText(code).then(() => {
+                        button.textContent = 'Copied!';
+                        button.classList.add('copy-btn-copied');
+                        setTimeout(() => {
+                            button.textContent = 'Copy';
+                            button.classList.remove('copy-btn-copied');
+                        }, 2000);
+                    });
+                });
+            });
+
+            // Mobile menu toggle
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+                sidebar.classList.toggle('translate-x-0');
+            });
+        });
+    </script>
+
+</body>
+</html>
